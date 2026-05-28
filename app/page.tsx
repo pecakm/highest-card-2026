@@ -1,11 +1,13 @@
-import { Button } from '@/components';
+import { useTranslations } from 'next-intl';
 
 import { Container } from './page.styled';
 
-export default function Home() {
+export default function HomePage() {
+  const t = useTranslations('HomePage');
+
   return (
     <Container>
-      <Button>Click me</Button>
+      {t('title')}
     </Container>
   );
 }
