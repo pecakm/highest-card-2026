@@ -22,6 +22,11 @@ export default class GameRoom implements Party.Server {
 
       this.sendPlayers();
     }
+
+    if (data.type === 'startGame') {
+      const message: ServerMessage = { type: 'gameStarted' };
+      this.room.broadcast(JSON.stringify(message));
+    }
   }
 
   onClose(connection: Party.Connection) {

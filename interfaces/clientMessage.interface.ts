@@ -1,4 +1,3 @@
-export interface ClientMessage {
-  type: 'join';
-  name: string;
-}
+export type ClientMessage =
+  | { type: 'join'; name: string }
+  | { type: 'startGame' };

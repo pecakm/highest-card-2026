@@ -13,7 +13,7 @@ export default function CreateRoom() {
 
   function createRoom() {
     const roomId = crypto.randomUUID();
-    router.push(`/room/${roomId}/host`);
+    router.push(`/room/${roomId}/lobby`);
   }
 
   return (

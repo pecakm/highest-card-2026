@@ -16,7 +16,7 @@ export default function JoinPage() {
     if (!name.trim()) return;
 
     sessionStorage.setItem(`room:${roomId}:playerName`, name.trim());
-    router.push(`/room/${roomId}/game`);
+    router.push(`/room/${roomId}/player`);
   }
 
   return (
