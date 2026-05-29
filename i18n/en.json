@@ -1,5 +1,8 @@
 {
   "HomePage": {
-    "title": "Highest Card"
+    "title": "Highest Card",
+    "createRoom": {
+      "createRoom": "Create room"
+    }
   }
 }
