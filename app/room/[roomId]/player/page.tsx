@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import PartySocket from 'partysocket';
 
-import { Player, ServerMessage } from '@/interfaces';
+import { Player, RoomStatus, ServerMessage } from '@/types';
 
 import {
   Container,
@@ -18,7 +18,7 @@ export default function PlayerPage() {
   const { roomId } = useParams<{ roomId: string }>();
   const router = useRouter();
   const [players, setPlayers] = useState<Player[]>([]);
-  const [gameStarted, setGameStarted] = useState(false);
+  const [status, setStatus] = useState<RoomStatus>('lobby');
 
   useEffect(() => {
     const name = sessionStorage.getItem(`room:${roomId}:playerName`)?.trim();
@@ -46,12 +46,9 @@ export default function PlayerPage() {
     socket.addEventListener('message', (event) => {
       const data = JSON.parse(event.data) as ServerMessage;
 
-      if (data.type === 'players') {
+      if (data.type === 'roomState') {
+        setStatus(data.status);
         setPlayers(data.players);
-      }
-
-      if (data.type === 'gameStarted') {
-        setGameStarted(true);
       }
     });
 
@@ -63,7 +60,7 @@ export default function PlayerPage() {
   return (
     <Container>
       <Title>Room ID: {roomId}</Title>
-      {gameStarted ? (
+      {status === 'playing' ? (
         <Title>Game started</Title>
       ) : (
         <>

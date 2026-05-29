@@ -1,14 +1,20 @@
 import type * as Party from 'partykit/server';
 
-import type { ClientMessage, ServerMessage, Player } from '@/interfaces';
+import type {
+  ClientMessage,
+  ServerMessage,
+  Player,
+  RoomStatus,
+} from '@/types';
 
 export default class GameRoom implements Party.Server {
   players = new Map<string, Player>();
+  status: RoomStatus = 'lobby';
 
   constructor(readonly room: Party.Room) {}
 
   onConnect(connection: Party.Connection) {
-    this.sendPlayers();
+    this.sendRoomState(connection);
   }
 
   onMessage(message: string, connection: Party.Connection) {
@@ -20,26 +26,33 @@ export default class GameRoom implements Party.Server {
         name: data.name,
       });
 
-      this.sendPlayers();
+      this.sendRoomState();
     }
 
-    if (data.type === 'startGame') {
-      const message: ServerMessage = { type: 'gameStarted' };
-      this.room.broadcast(JSON.stringify(message));
+    if (data.type === 'startGame' && this.status === 'lobby') {
+      this.status = 'playing';
+      this.sendRoomState();
     }
   }
 
   onClose(connection: Party.Connection) {
     this.players.delete(connection.id);
-    this.sendPlayers();
+    this.sendRoomState();
   }
 
-  sendPlayers() {
+  sendRoomState(target?: Party.Connection) {
     const message: ServerMessage = {
-      type: 'players',
+      type: 'roomState',
+      status: this.status,
       players: Array.from(this.players.values()),
     };
 
-    this.room.broadcast(JSON.stringify(message));
+    const payload = JSON.stringify(message);
+
+    if (target) {
+      target.send(payload);
+    } else {
+      this.room.broadcast(payload);
+    }
   }
 }

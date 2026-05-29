@@ -7,7 +7,7 @@ import { QRCodeCanvas } from 'qrcode.react';
 import PartySocket from 'partysocket';
 
 import { Button } from '@/components';
-import { Player, ServerMessage } from '@/interfaces';
+import { Player, RoomStatus, ServerMessage } from '@/types';
 
 import {
   Container,
@@ -22,8 +22,8 @@ export default function LobbyPage() {
   const { roomId } = useParams<{ roomId: string }>();
   const router = useRouter();
   const [players, setPlayers] = useState<Player[]>([]);
+  const [status, setStatus] = useState<RoomStatus | null>(null);
   const socketRef = useRef<PartySocket | null>(null);
-
   const joinUrl = typeof window !== 'undefined' ? `${window.location.origin}/room/${roomId}/join` : '';
 
   useEffect(() => {
@@ -37,8 +37,13 @@ export default function LobbyPage() {
     socket.addEventListener('message', (event) => {
       const data = JSON.parse(event.data) as ServerMessage;
 
-      if (data.type === 'players') {
+      if (data.type === 'roomState') {
+        setStatus(data.status);
         setPlayers(data.players);
+
+        if (data.status === 'playing') {
+          router.replace(`/room/${roomId}/host`);
+        }
       }
     });
 
@@ -46,7 +51,7 @@ export default function LobbyPage() {
       socketRef.current = null;
       socket.close();
     };
-  }, [roomId]);
+  }, [roomId, router]);
 
   function startGame() {
     router.push(`/room/${roomId}/host`);
@@ -54,6 +59,10 @@ export default function LobbyPage() {
 
   function copyJoinUrl() {
     navigator.clipboard.writeText(joinUrl);
+  }
+
+  if (status !== 'lobby') {
+    return null;
   }
 
   return (
