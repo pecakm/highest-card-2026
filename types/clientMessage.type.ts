@@ -1,3 +1,4 @@
 export type ClientMessage =
   | { type: 'join'; name: string }
-  | { type: 'startGame' };
+  | { type: 'startGame' }
+  | { type: 'nextRound' };

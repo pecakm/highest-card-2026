@@ -9,3 +9,5 @@ export const PlayersTitle = styled.h2``;
 export const PlayersList = styled.ul``;
 
 export const PlayerItem = styled.li``;
+
+export const Text = styled.p``;

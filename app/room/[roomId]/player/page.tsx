@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import PartySocket from 'partysocket';
 
+import { formatCard, getRoundWinners } from '@/lib/game';
 import { Player, RoomStatus, ServerMessage } from '@/types';
 
 import {
@@ -12,6 +13,7 @@ import {
   PlayersTitle,
   PlayersList,
   PlayerItem,
+  Text,
 } from './page.styled';
 
 export default function PlayerPage() {
@@ -19,6 +21,8 @@ export default function PlayerPage() {
   const router = useRouter();
   const [players, setPlayers] = useState<Player[]>([]);
   const [status, setStatus] = useState<RoomStatus>('lobby');
+  const [round, setRound] = useState(0);
+  const [playerName, setPlayerName] = useState<string | null>(null);
 
   useEffect(() => {
     const name = sessionStorage.getItem(`room:${roomId}:playerName`)?.trim();
@@ -27,6 +31,8 @@ export default function PlayerPage() {
       router.replace(`/room/${roomId}/join`);
       return;
     }
+
+    setPlayerName(name);
 
     const socket = new PartySocket({
       host: process.env.NEXT_PUBLIC_PARTYKIT_HOST!,
@@ -49,6 +55,7 @@ export default function PlayerPage() {
       if (data.type === 'roomState') {
         setStatus(data.status);
         setPlayers(data.players);
+        setRound(data.round);
       }
     });
 
@@ -57,18 +64,39 @@ export default function PlayerPage() {
     };
   }, [roomId, router]);
 
+  const currentPlayer = players.find((player) => player.name === playerName);
+  const winners = getRoundWinners(players);
+
   return (
     <Container>
       <Title>Room ID: {roomId}</Title>
       {status === 'playing' ? (
-        <Title>Game started</Title>
+        <>
+          <Title>Round {round}</Title>
+          {currentPlayer?.card && (
+            <Text>Your card: {formatCard(currentPlayer.card)}</Text>
+          )}
+          {winners.length > 0 && (
+            <Text>
+              Winner{winners.length > 1 ? 's' : ''}: {winners.map((winner) => winner.name).join(', ')}
+            </Text>
+          )}
+          <PlayersTitle>Scoreboard</PlayersTitle>
+          <PlayersList>
+            {players.map((player) => (
+              <PlayerItem key={player.id}>
+                {player.name}: {player.card ? formatCard(player.card) : '—'} — {player.score} pts
+              </PlayerItem>
+            ))}
+          </PlayersList>
+        </>
       ) : (
         <>
           <PlayersTitle>Players ({players.length})</PlayersTitle>
           <PlayersList>
             {players.map((player) => (
               <PlayerItem key={player.id}>
-                {player.id} - {player.name}
+                {player.name}
               </PlayerItem>
             ))}
           </PlayersList>
