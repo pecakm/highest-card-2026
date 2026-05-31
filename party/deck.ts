@@ -1,6 +1,6 @@
 import type { Card, Rank, Suit } from '@/types';
 
-const suits: Suit[] = ['hearts', 'diamonds', 'clubs', 'spades'];
+const suits: Suit[] = ['♥', '♦', '♣', '♠'];
 
 const ranks: { rank: Rank; value: number }[] = [
   { rank: '2', value: 2 },

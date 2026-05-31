@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import PartySocket from 'partysocket';
 
-import { formatCard, getRoundWinners } from '@/lib/game';
+import { formatCard, getRoundWinners } from '@/utils';
 import { Player, RoomStatus, ServerMessage } from '@/types';
 
 import {

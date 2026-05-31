@@ -7,7 +7,7 @@ import PartySocket from 'partysocket';
 import { QRCodeCanvas } from 'qrcode.react';
 
 import { Button } from '@/components';
-import { formatCard, getRoundWinners } from '@/lib/game';
+import { formatCard, getRoundWinners } from '@/utils';
 import { Player, ServerMessage } from '@/types';
 
 import { Container, Title, Text, PlayersTitle, PlayersList, PlayerItem } from './page.styled';
