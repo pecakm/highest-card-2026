@@ -69,6 +69,7 @@ export default function GameRoom({
             {player.name}
             {index === dealerPlayerIndex && ` ${t('dealer')}`}:{' '}
             {getPlayerCardDisplay(player, currentPlayer?.id, roundPhase)} — {player.score}{t('points')}
+            {roundPhase === 'choosing' && player.choice && ` (${t(player.choice)})`}
           </PlayerItem>
         ))}
       </PlayersList>
