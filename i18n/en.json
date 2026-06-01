@@ -4,5 +4,37 @@
     "createRoom": {
       "createRoom": "Create room"
     }
+  },
+  "LobbyPage": {
+    "roomId": "Room ID: {roomId}",
+    "players": "Players",
+    "startGame": "Start Game",
+    "copyLink": "Copy link",
+    "joinUrl": "Join URL:"
+  },
+  "HostPage": {
+    "roomId": "Room ID: {roomId}",
+    "round": "Round {round}",
+    "players": "Players",
+    "points": "pts",
+    "winner": "(winner)",
+    "winners": "Winner:",
+    "nextRound": "Next round",
+    "copyLink": "Copy link",
+    "joinUrl": "Join URL:"
+  },
+  "JoinPage": {
+    "roomId": "Room ID: {roomId}",
+    "yourName": "Your name",
+    "joinRoom": "Join room"
+  },
+  "PlayerPage": {
+    "roomId": "Room ID: {roomId}",
+    "round": "Round {round}",
+    "yourCard": "Your card:",
+    "players": "Players",
+    "points": "pts",
+    "winners": "Winner:",
+    "scoreboard": "Scoreboard"
   }
 }

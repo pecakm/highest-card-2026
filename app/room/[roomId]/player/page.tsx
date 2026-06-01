@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import PartySocket from 'partysocket';
 
 import { formatCard, getRoundWinners } from '@/utils';
@@ -18,6 +19,7 @@ import {
 
 export default function PlayerPage() {
   const { roomId } = useParams<{ roomId: string }>();
+  const t = useTranslations('PlayerPage');
   const router = useRouter();
   const [players, setPlayers] = useState<Player[]>([]);
   const [status, setStatus] = useState<RoomStatus>('lobby');
@@ -69,30 +71,30 @@ export default function PlayerPage() {
 
   return (
     <Container>
-      <Title>Room ID: {roomId}</Title>
+      <Title>{t('roomId', { roomId })}</Title>
       {status === 'playing' ? (
         <>
-          <Title>Round {round}</Title>
+          <Title>{t('round', { round })}</Title>
           {currentPlayer?.card && (
-            <Text>Your card: {formatCard(currentPlayer.card)}</Text>
+            <Text>{t('yourCard')} {formatCard(currentPlayer.card)}</Text>
           )}
           {winners.length > 0 && (
             <Text>
-              Winner{winners.length > 1 ? 's' : ''}: {winners.map((winner) => winner.name).join(', ')}
+              {t('winners')} {winners.map((winner) => winner.name).join(', ')}
             </Text>
           )}
-          <PlayersTitle>Scoreboard</PlayersTitle>
+          <PlayersTitle>{t('scoreboard')}</PlayersTitle>
           <PlayersList>
             {players.map((player) => (
               <PlayerItem key={player.id}>
-                {player.name}: {player.card ? formatCard(player.card) : '—'} — {player.score} pts
+                {player.name}: {player.card ? formatCard(player.card) : '—'} — {player.score} {t('points')}
               </PlayerItem>
             ))}
           </PlayersList>
         </>
       ) : (
         <>
-          <PlayersTitle>Players ({players.length})</PlayersTitle>
+          <PlayersTitle>{t('players')} ({players.length})</PlayersTitle>
           <PlayersList>
             {players.map((player) => (
               <PlayerItem key={player.id}>

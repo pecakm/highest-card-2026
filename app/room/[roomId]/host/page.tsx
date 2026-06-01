@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import PartySocket from 'partysocket';
 import { QRCodeCanvas } from 'qrcode.react';
 
@@ -14,11 +15,13 @@ import { Container, Title, Text, PlayersTitle, PlayersList, PlayerItem } from '.
 
 export default function HostPage() {
   const { roomId } = useParams<{ roomId: string }>();
-  const joinUrl = typeof window !== 'undefined' ? `${window.location.origin}/room/${roomId}/join` : '';
+  const t = useTranslations('HostPage');
   const [players, setPlayers] = useState<Player[]>([]);
   const [round, setRound] = useState(0);
   const socketRef = useRef<PartySocket | null>(null);
   const hasStartedRef = useRef(false);
+  const joinUrl = typeof window !== 'undefined' ? `${window.location.origin}/room/${roomId}/join` : '';
+  const winners = getRoundWinners(players);
 
   useEffect(() => {
     const socket = new PartySocket({
@@ -66,38 +69,36 @@ export default function HostPage() {
     navigator.clipboard.writeText(joinUrl);
   }
 
-  const winners = getRoundWinners(players);
-
   return (
     <Container>
-      <Title>Room ID: {roomId}</Title>
-      <Title>Round {round}</Title>
+      <Title>{t('roomId', { roomId })}</Title>
+      <Title>{t('round', { round })}</Title>
 
-      <PlayersTitle>Players</PlayersTitle>
+      <PlayersTitle>{t('players')}</PlayersTitle>
       <PlayersList>
         {players.map((player) => (
           <PlayerItem key={player.id}>
-            {player.name}: {player.card ? formatCard(player.card) : '—'} — {player.score} pts
-            {winners.some((winner) => winner.id === player.id) ? ' (winner)' : ''}
+            {player.name}: {player.card ? formatCard(player.card) : '—'} — {player.score} {t('points')}
+            {winners.some((winner) => winner.id === player.id) ? ` ${t('winner')}` : ''}
           </PlayerItem>
         ))}
       </PlayersList>
 
       {winners.length > 0 && (
         <Text>
-          Winner{winners.length > 1 ? 's' : ''}: {winners.map((winner) => winner.name).join(', ')}
+          {t('winners')} {winners.map((winner) => winner.name).join(', ')}
         </Text>
       )}
 
-      <Button onClick={nextRound}>Next round</Button>
+      <Button onClick={nextRound}>{t('nextRound')}</Button>
 
       {joinUrl && (
         <>
           <QRCodeCanvas value={joinUrl} />
           <Text>
-            Join URL: <Link href={joinUrl}>{joinUrl}</Link>
+            {t('joinUrl')} <Link href={joinUrl}>{joinUrl}</Link>
           </Text>
-          <Button onClick={copyJoinUrl}>Copy link</Button>
+          <Button onClick={copyJoinUrl}>{t('copyLink')}</Button>
         </>
       )}
     </Container>

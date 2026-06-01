@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { QRCodeCanvas } from 'qrcode.react';
 import PartySocket from 'partysocket';
 
@@ -20,6 +21,7 @@ import {
 
 export default function LobbyPage() {
   const { roomId } = useParams<{ roomId: string }>();
+  const t = useTranslations('LobbyPage');
   const router = useRouter();
   const [players, setPlayers] = useState<Player[]>([]);
   const [status, setStatus] = useState<RoomStatus | null>(null);
@@ -67,26 +69,24 @@ export default function LobbyPage() {
 
   return (
     <Container>
-      <Title>Room ID: {roomId}</Title>
+      <Title>{t('roomId', { roomId })}</Title>
       {joinUrl && (
         <>
           <QRCodeCanvas value={joinUrl} />
           <Text>
-            Join URL: <Link href={joinUrl}>{joinUrl}</Link>
+            {t('joinUrl')} <Link href={joinUrl}>{joinUrl}</Link>
           </Text>
-          <Button onClick={copyJoinUrl}>Copy link</Button>
+          <Button onClick={copyJoinUrl}>{t('copyLink')}</Button>
         </>
       )}
-
-      <PlayersTitle>Players ({players.length})</PlayersTitle>
-
+      <PlayersTitle>{t('players')} ({players.length})</PlayersTitle>
       <PlayersList>
         {players.map((player) => (
           <PlayerItem key={player.id}>{player.id} - {player.name}</PlayerItem>
         ))}
       </PlayersList>
 
-      <Button onClick={startGame}>Start Game</Button>
+      <Button onClick={startGame}>{t('startGame')}</Button>
     </Container>
   );
 }

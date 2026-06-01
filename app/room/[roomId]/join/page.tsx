@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 import { Input, Button } from '@/components';
 
@@ -9,6 +10,7 @@ import { Container, Title } from './page.styled';
 
 export default function JoinPage() {
   const { roomId } = useParams<{ roomId: string }>();
+  const t = useTranslations('JoinPage');
   const router = useRouter();
   const [name, setName] = useState('');
 
@@ -21,15 +23,15 @@ export default function JoinPage() {
 
   return (
     <Container>
-      <Title>Room ID: {roomId}</Title>
+      <Title>{t('roomId', { roomId })}</Title>
 
       <Input
         value={name}
         onChange={(event) => setName(event.target.value)}
-        placeholder="Your name"
+        placeholder={t('yourName')}
       />
 
-      <Button onClick={joinRoom}>Join room</Button>
+      <Button onClick={joinRoom}>{t('joinRoom')}</Button>
     </Container>
   );
 }
