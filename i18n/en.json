@@ -30,11 +30,15 @@
   },
   "PlayerPage": {
     "roomId": "Room ID: {roomId}",
-    "round": "Round {round}",
-    "yourCard": "Your card:",
-    "players": "Players",
-    "points": "pts",
-    "winners": "Winner:",
-    "scoreboard": "Scoreboard"
+    "WaitingRoom": {
+      "players": "Players"
+    },
+    "GameRoom": {
+      "round": "Round {round}",
+      "yourCard": "Your card:",
+      "points": "pts",
+      "winners": "Winner:",
+      "scoreboard": "Scoreboard"
+    }
   }
 }
