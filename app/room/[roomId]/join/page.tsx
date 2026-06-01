@@ -47,7 +47,11 @@ export default function JoinPage() {
               id="username"
               placeholder={t('yourName')}
               error={!!errors.username}
-              helperText={errors.username?.message}
+              helperText={
+                errors.username?.message
+                  ? t(errors.username.message)
+                  : undefined
+              }
               {...field}
             />
           )}

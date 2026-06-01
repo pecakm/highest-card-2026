@@ -26,7 +26,12 @@
   "JoinPage": {
     "roomId": "Room ID: {roomId}",
     "yourName": "Your name",
-    "joinRoom": "Join room"
+    "joinRoom": "Join room",
+    "validation": {
+      "usernameMin": "Username must have at least 2 characters",
+      "usernameMax": "Username can have max 20 characters",
+      "usernamePattern": "Use only letters, numbers, _ or -"
+    }
   },
   "PlayerPage": {
     "roomId": "Room ID: {roomId}",
