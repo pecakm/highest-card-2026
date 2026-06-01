@@ -6,8 +6,7 @@ import type {
   Player,
   RoomStatus,
 } from '@/types';
-
-import { createDeck, shuffleDeck } from './deck';
+import { createDeck, shuffleDeck } from '@/utils';
 
 export default class GameRoom implements Party.Server {
   players = new Map<string, Player>();
