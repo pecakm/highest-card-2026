@@ -23,6 +23,7 @@
     "copyLink": "Copy link",
     "joinUrl": "Join URL:",
     "waitingForPlayer": "Waiting for {name} to choose…",
+    "dealer": "(Dealer)",
     "in": "in",
     "pass": "pass"
   },
@@ -49,7 +50,8 @@
       "scoreboard": "Scoreboard",
       "in": "In",
       "pass": "Pass",
-      "waitingForPlayer": "Waiting for {name} to choose…"
+      "waitingForPlayer": "Waiting for {name} to choose…",
+      "dealer": "(Dealer)"
     }
   }
 }

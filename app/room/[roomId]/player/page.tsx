@@ -19,6 +19,7 @@ export default function PlayerPage() {
   const [round, setRound] = useState(0);
   const [roundPhase, setRoundPhase] = useState<RoundPhase>('resolved');
   const [choosingPlayerIndex, setChoosingPlayerIndex] = useState(0);
+  const [dealerPlayerIndex, setDealerPlayerIndex] = useState(-1);
   const socketRef = useRef<PartySocket | null>(null);
 
   useEffect(() => {
@@ -55,6 +56,7 @@ export default function PlayerPage() {
         setRound(data.round);
         setRoundPhase(data.roundPhase);
         setChoosingPlayerIndex(data.choosingPlayerIndex);
+        setDealerPlayerIndex(data.dealerPlayerIndex);
       }
     });
 
@@ -76,6 +78,7 @@ export default function PlayerPage() {
           round={round}
           roundPhase={roundPhase}
           choosingPlayerIndex={choosingPlayerIndex}
+          dealerPlayerIndex={dealerPlayerIndex}
           players={players}
           onRoundChoice={onRoundChoice}
         />

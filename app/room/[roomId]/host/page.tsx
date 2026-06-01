@@ -20,6 +20,7 @@ export default function HostPage() {
   const [round, setRound] = useState(0);
   const [roundPhase, setRoundPhase] = useState<RoundPhase>('resolved');
   const [choosingPlayerIndex, setChoosingPlayerIndex] = useState(0);
+  const [dealerPlayerIndex, setDealerPlayerIndex] = useState(-1);
   const socketRef = useRef<PartySocket | null>(null);
   const hasStartedRef = useRef(false);
   const joinUrl = typeof window !== 'undefined' ? `${window.location.origin}/room/${roomId}/join` : '';
@@ -51,6 +52,7 @@ export default function HostPage() {
         setRound(data.round);
         setRoundPhase(data.roundPhase);
         setChoosingPlayerIndex(data.choosingPlayerIndex);
+        setDealerPlayerIndex(data.dealerPlayerIndex);
       }
     });
 
@@ -83,10 +85,11 @@ export default function HostPage() {
       )}
       <PlayersTitle>{t('players')}</PlayersTitle>
       <PlayersList>
-        {players.map((player) => (
+        {players.map((player, index) => (
           <PlayerItem key={player.id}>
-            {player.name}: {getPlayerCardDisplay(player, undefined, roundPhase)} — {player.score}{' '}
-            {t('points')}
+            {player.name}
+            {index === dealerPlayerIndex && ` ${t('dealer')}`}:{' '}
+            {getPlayerCardDisplay(player, undefined, roundPhase)} — {player.score}{t('points')}
             {roundPhase === 'choosing' && player.choice && ` (${t(player.choice)})`}
             {winners.some((winner) => winner.id === player.id) ? ` ${t('winner')}` : ''}
           </PlayerItem>

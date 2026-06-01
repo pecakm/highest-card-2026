@@ -21,6 +21,7 @@ export default function GameRoom({
   round,
   roundPhase,
   choosingPlayerIndex,
+  dealerPlayerIndex,
   players,
   onRoundChoice,
 }: GameRoomProps) {
@@ -63,10 +64,11 @@ export default function GameRoom({
       )}
       <PlayersTitle>{t('scoreboard')}</PlayersTitle>
       <PlayersList>
-        {players.map((player) => (
+        {players.map((player, index) => (
           <PlayerItem key={player.id}>
-            {player.name}: {getPlayerCardDisplay(player, currentPlayer?.id, roundPhase)} —{' '}
-            {player.score} {t('points')}
+            {player.name}
+            {index === dealerPlayerIndex && ` ${t('dealer')}`}:{' '}
+            {getPlayerCardDisplay(player, currentPlayer?.id, roundPhase)} — {player.score}{t('points')}
           </PlayerItem>
         ))}
       </PlayersList>

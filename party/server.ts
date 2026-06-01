@@ -16,6 +16,7 @@ export default class GameRoom implements Party.Server {
   round = 0;
   roundPhase: RoundPhase = 'resolved';
   choosingPlayerIndex = 0;
+  dealerPlayerIndex = -1;
 
   constructor(readonly room: Party.Room) {}
 
@@ -77,8 +78,9 @@ export default class GameRoom implements Party.Server {
     }
 
     this.round += 1;
+    this.dealerPlayerIndex = (this.round - 1) % playerList.length;
     this.roundPhase = 'choosing';
-    this.choosingPlayerIndex = 0;
+    this.choosingPlayerIndex = this.dealerPlayerIndex;
     this.sendRoomState();
   }
 
@@ -91,9 +93,9 @@ export default class GameRoom implements Party.Server {
     }
 
     currentPlayer.choice = choice;
-    this.choosingPlayerIndex += 1;
+    this.choosingPlayerIndex = (this.choosingPlayerIndex + 1) % playerList.length;
 
-    if (this.choosingPlayerIndex >= playerList.length) {
+    if (playerList.every((player) => player.choice !== null)) {
       this.resolveRound(playerList);
     } else {
       this.sendRoomState();
@@ -126,6 +128,7 @@ export default class GameRoom implements Party.Server {
       round: this.round,
       roundPhase: this.roundPhase,
       choosingPlayerIndex: this.choosingPlayerIndex,
+      dealerPlayerIndex: this.dealerPlayerIndex,
       players: this.getPlayerList(),
     };
 

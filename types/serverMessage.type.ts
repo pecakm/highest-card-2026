@@ -8,5 +8,6 @@ export type ServerMessage = {
   round: number;
   roundPhase: RoundPhase;
   choosingPlayerIndex: number;
+  dealerPlayerIndex: number;
   players: Player[];
 };
