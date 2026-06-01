@@ -68,10 +68,6 @@ export default function HostPage() {
     };
   }, [roomId]);
 
-  function nextRound() {
-    socketRef.current?.send(JSON.stringify({ type: 'nextRound' }));
-  }
-
   function copyJoinUrl() {
     navigator.clipboard.writeText(joinUrl);
   }
@@ -100,9 +96,6 @@ export default function HostPage() {
           {t('winners')} {winners.map((winner) => winner.name).join(', ')}
         </Text>
       )}
-      <Button onClick={nextRound} disabled={roundPhase === 'choosing'}>
-        {t('nextRound')}
-      </Button>
       {joinUrl && (
         <>
           <QRCodeCanvas value={joinUrl} />

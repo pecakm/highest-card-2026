@@ -9,6 +9,7 @@ import type {
   RoundPhase,
 } from '@/types';
 import { createDeck, shuffleDeck } from '@/utils';
+import { NextRoundDelay } from '@/constants';
 
 export default class GameRoom implements Party.Server {
   players = new Map<string, Player>();
@@ -17,6 +18,7 @@ export default class GameRoom implements Party.Server {
   roundPhase: RoundPhase = 'resolved';
   choosingPlayerIndex = 0;
   dealerPlayerIndex = -1;
+  nextRoundTimeout: ReturnType<typeof setTimeout> | null = null;
 
   constructor(readonly room: Party.Room) {}
 
@@ -44,10 +46,6 @@ export default class GameRoom implements Party.Server {
       this.playRound();
     }
 
-    if (data.type === 'nextRound' && this.status === 'playing' && this.roundPhase === 'resolved') {
-      this.playRound();
-    }
-
     if (data.type === 'roundChoice' && this.status === 'playing' && this.roundPhase === 'choosing') {
       this.handleRoundChoice(connection.id, data.choice);
     }
@@ -62,7 +60,26 @@ export default class GameRoom implements Party.Server {
     return Array.from(this.players.values());
   }
 
+  clearNextRoundTimeout() {
+    if (this.nextRoundTimeout !== null) {
+      clearTimeout(this.nextRoundTimeout);
+      this.nextRoundTimeout = null;
+    }
+  }
+
+  scheduleNextRound() {
+    this.clearNextRoundTimeout();
+    this.nextRoundTimeout = setTimeout(() => {
+      this.nextRoundTimeout = null;
+
+      if (this.status === 'playing' && this.roundPhase === 'resolved') {
+        this.playRound();
+      }
+    }, NextRoundDelay);
+  }
+
   playRound() {
+    this.clearNextRoundTimeout();
     const playerList = this.getPlayerList();
 
     if (playerList.length === 0) {
@@ -119,6 +136,7 @@ export default class GameRoom implements Party.Server {
 
     this.roundPhase = 'resolved';
     this.sendRoomState();
+    this.scheduleNextRound();
   }
 
   sendRoomState(target?: Party.Connection) {
