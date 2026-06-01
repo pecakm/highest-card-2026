@@ -1,37 +1,61 @@
 'use client';
 
-import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { Controller, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Input, Button } from '@/components';
+import { joinSchema, JoinFormValues } from '@/validations';
 
-import { Container, Title } from './page.styled';
+import { Container, Title, Form } from './page.styled';
 
 export default function JoinPage() {
   const { roomId } = useParams<{ roomId: string }>();
   const t = useTranslations('JoinPage');
   const router = useRouter();
-  const [name, setName] = useState('');
 
-  function joinRoom() {
-    if (!name.trim()) return;
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<JoinFormValues>({
+    resolver: zodResolver(joinSchema),
+    defaultValues: {
+      username: '',
+    },
+  });
 
-    sessionStorage.setItem(`room:${roomId}:playerName`, name.trim());
+  const onSubmit = (data: JoinFormValues) => {
+    const username = data.username.trim();
+
+    if (!username) return;
+
+    sessionStorage.setItem(`room:${roomId}:playerName`, username);
     router.push(`/room/${roomId}/player`);
-  }
+  };
 
   return (
     <Container>
       <Title>{t('roomId', { roomId })}</Title>
-
-      <Input
-        value={name}
-        onChange={(event) => setName(event.target.value)}
-        placeholder={t('yourName')}
-      />
-
-      <Button onClick={joinRoom}>{t('joinRoom')}</Button>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Controller
+          name="username"
+          control={control}
+          render={({ field }) => (
+            <Input
+              id="username"
+              placeholder={t('yourName')}
+              error={!!errors.username}
+              helperText={errors.username?.message}
+              {...field}
+            />
+          )}
+        />
+        <Button type="submit" disabled={isSubmitting}>
+          {t('joinRoom')}
+        </Button>
+      </Form>
     </Container>
   );
 }
