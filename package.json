@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "partykit:dev": "npx partykit dev",
+    "partykit:deploy": "npx partykit deploy"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",
