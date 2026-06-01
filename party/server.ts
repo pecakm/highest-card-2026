@@ -109,6 +109,8 @@ export default class GameRoom implements Party.Server {
       for (const player of inPlayers) {
         if (player.card!.value === highestValue) {
           player.score += 1;
+        } else {
+          player.score -= 1;
         }
       }
     }
