@@ -34,6 +34,7 @@ export default function PlayerPage() {
       return;
     }
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPlayerName(name);
 
     const socket = new PartySocket({
