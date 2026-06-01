@@ -8,8 +8,8 @@ import PartySocket from 'partysocket';
 import { QRCodeCanvas } from 'qrcode.react';
 
 import { Button } from '@/components';
-import { formatCard, getRoundWinners } from '@/utils';
-import { Player, ServerMessage } from '@/types';
+import { getPlayerCardDisplay, getRoundWinners } from '@/utils';
+import { Player, RoundPhase, ServerMessage } from '@/types';
 
 import { Container, Title, Text, PlayersTitle, PlayersList, PlayerItem } from './page.styled';
 
@@ -18,10 +18,13 @@ export default function HostPage() {
   const t = useTranslations('HostPage');
   const [players, setPlayers] = useState<Player[]>([]);
   const [round, setRound] = useState(0);
+  const [roundPhase, setRoundPhase] = useState<RoundPhase>('resolved');
+  const [choosingPlayerIndex, setChoosingPlayerIndex] = useState(0);
   const socketRef = useRef<PartySocket | null>(null);
   const hasStartedRef = useRef(false);
   const joinUrl = typeof window !== 'undefined' ? `${window.location.origin}/room/${roomId}/join` : '';
-  const winners = getRoundWinners(players);
+  const choosingPlayer = players[choosingPlayerIndex];
+  const winners = getRoundWinners(players, roundPhase);
 
   useEffect(() => {
     const socket = new PartySocket({
@@ -46,6 +49,8 @@ export default function HostPage() {
       if (data.type === 'roomState') {
         setPlayers(data.players);
         setRound(data.round);
+        setRoundPhase(data.roundPhase);
+        setChoosingPlayerIndex(data.choosingPlayerIndex);
       }
     });
 
@@ -73,25 +78,28 @@ export default function HostPage() {
     <Container>
       <Title>{t('roomId', { roomId })}</Title>
       <Title>{t('round', { round })}</Title>
-
+      {roundPhase === 'choosing' && choosingPlayer && (
+        <Text>{t('waitingForPlayer', { name: choosingPlayer.name })}</Text>
+      )}
       <PlayersTitle>{t('players')}</PlayersTitle>
       <PlayersList>
         {players.map((player) => (
           <PlayerItem key={player.id}>
-            {player.name}: {player.card ? formatCard(player.card) : '—'} — {player.score} {t('points')}
+            {player.name}: {getPlayerCardDisplay(player, undefined, roundPhase)} — {player.score}{' '}
+            {t('points')}
+            {roundPhase === 'choosing' && player.choice && ` (${t(player.choice)})`}
             {winners.some((winner) => winner.id === player.id) ? ` ${t('winner')}` : ''}
           </PlayerItem>
         ))}
       </PlayersList>
-
       {winners.length > 0 && (
         <Text>
           {t('winners')} {winners.map((winner) => winner.name).join(', ')}
         </Text>
       )}
-
-      <Button onClick={nextRound}>{t('nextRound')}</Button>
-
+      <Button onClick={nextRound} disabled={roundPhase === 'choosing'}>
+        {t('nextRound')}
+      </Button>
       {joinUrl && (
         <>
           <QRCodeCanvas value={joinUrl} />

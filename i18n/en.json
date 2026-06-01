@@ -21,7 +21,10 @@
     "winners": "Winner:",
     "nextRound": "Next round",
     "copyLink": "Copy link",
-    "joinUrl": "Join URL:"
+    "joinUrl": "Join URL:",
+    "waitingForPlayer": "Waiting for {name} to choose…",
+    "in": "in",
+    "pass": "pass"
   },
   "JoinPage": {
     "roomId": "Room ID: {roomId}",
@@ -43,7 +46,10 @@
       "yourCard": "Your card:",
       "points": "pts",
       "winners": "Winner:",
-      "scoreboard": "Scoreboard"
+      "scoreboard": "Scoreboard",
+      "in": "In",
+      "pass": "Pass",
+      "waitingForPlayer": "Waiting for {name} to choose…"
     }
   }
 }

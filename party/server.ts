@@ -5,6 +5,8 @@ import type {
   ServerMessage,
   Player,
   RoomStatus,
+  RoundChoice,
+  RoundPhase,
 } from '@/types';
 import { createDeck, shuffleDeck } from '@/utils';
 
@@ -12,6 +14,8 @@ export default class GameRoom implements Party.Server {
   players = new Map<string, Player>();
   status: RoomStatus = 'lobby';
   round = 0;
+  roundPhase: RoundPhase = 'resolved';
+  choosingPlayerIndex = 0;
 
   constructor(readonly room: Party.Room) {}
 
@@ -28,6 +32,7 @@ export default class GameRoom implements Party.Server {
         name: data.name,
         score: 0,
         card: null,
+        choice: null,
       });
 
       this.sendRoomState();
@@ -38,8 +43,12 @@ export default class GameRoom implements Party.Server {
       this.playRound();
     }
 
-    if (data.type === 'nextRound' && this.status === 'playing') {
+    if (data.type === 'nextRound' && this.status === 'playing' && this.roundPhase === 'resolved') {
       this.playRound();
+    }
+
+    if (data.type === 'roundChoice' && this.status === 'playing' && this.roundPhase === 'choosing') {
+      this.handleRoundChoice(connection.id, data.choice);
     }
   }
 
@@ -48,8 +57,12 @@ export default class GameRoom implements Party.Server {
     this.sendRoomState();
   }
 
+  getPlayerList(): Player[] {
+    return Array.from(this.players.values());
+  }
+
   playRound() {
-    const playerList = Array.from(this.players.values());
+    const playerList = this.getPlayerList();
 
     if (playerList.length === 0) {
       this.sendRoomState();
@@ -60,17 +73,47 @@ export default class GameRoom implements Party.Server {
 
     for (const player of playerList) {
       player.card = deck.pop() ?? null;
-    }
-
-    const highestValue = Math.max(...playerList.map((player) => player.card?.value ?? 0));
-
-    for (const player of playerList) {
-      if (player.card?.value === highestValue) {
-        player.score += 1;
-      }
+      player.choice = null;
     }
 
     this.round += 1;
+    this.roundPhase = 'choosing';
+    this.choosingPlayerIndex = 0;
+    this.sendRoomState();
+  }
+
+  handleRoundChoice(playerId: string, choice: RoundChoice) {
+    const playerList = this.getPlayerList();
+    const currentPlayer = playerList[this.choosingPlayerIndex];
+
+    if (!currentPlayer || currentPlayer.id !== playerId) {
+      return;
+    }
+
+    currentPlayer.choice = choice;
+    this.choosingPlayerIndex += 1;
+
+    if (this.choosingPlayerIndex >= playerList.length) {
+      this.resolveRound(playerList);
+    } else {
+      this.sendRoomState();
+    }
+  }
+
+  resolveRound(playerList: Player[]) {
+    const inPlayers = playerList.filter((player) => player.choice === 'in' && player.card);
+
+    if (inPlayers.length > 0) {
+      const highestValue = Math.max(...inPlayers.map((player) => player.card!.value));
+
+      for (const player of inPlayers) {
+        if (player.card!.value === highestValue) {
+          player.score += 1;
+        }
+      }
+    }
+
+    this.roundPhase = 'resolved';
     this.sendRoomState();
   }
 
@@ -79,7 +122,9 @@ export default class GameRoom implements Party.Server {
       type: 'roomState',
       status: this.status,
       round: this.round,
-      players: Array.from(this.players.values()),
+      roundPhase: this.roundPhase,
+      choosingPlayerIndex: this.choosingPlayerIndex,
+      players: this.getPlayerList(),
     };
 
     const payload = JSON.stringify(message);

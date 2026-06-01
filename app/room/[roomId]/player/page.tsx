@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import PartySocket from 'partysocket';
 
-import { Player, RoomStatus, ServerMessage } from '@/types';
+import { Player, RoomStatus, RoundChoice, RoundPhase, ServerMessage } from '@/types';
 
 import { GameRoom, WaitingRoom } from './components';
 import { Container, Title } from './page.styled';
@@ -17,6 +17,9 @@ export default function PlayerPage() {
   const [players, setPlayers] = useState<Player[]>([]);
   const [status, setStatus] = useState<RoomStatus>('lobby');
   const [round, setRound] = useState(0);
+  const [roundPhase, setRoundPhase] = useState<RoundPhase>('resolved');
+  const [choosingPlayerIndex, setChoosingPlayerIndex] = useState(0);
+  const socketRef = useRef<PartySocket | null>(null);
 
   useEffect(() => {
     const name = sessionStorage.getItem(`room:${roomId}:playerName`)?.trim();
@@ -30,6 +33,8 @@ export default function PlayerPage() {
       host: process.env.NEXT_PUBLIC_PARTYKIT_HOST!,
       room: roomId,
     });
+
+    socketRef.current = socket;
 
     const join = () => {
       socket.send(JSON.stringify({ type: 'join', name }));
@@ -48,19 +53,32 @@ export default function PlayerPage() {
         setStatus(data.status);
         setPlayers(data.players);
         setRound(data.round);
+        setRoundPhase(data.roundPhase);
+        setChoosingPlayerIndex(data.choosingPlayerIndex);
       }
     });
 
     return () => {
+      socketRef.current = null;
       socket.close();
     };
   }, [roomId, router]);
+
+  const onRoundChoice = useCallback((choice: RoundChoice) => {
+    socketRef.current?.send(JSON.stringify({ type: 'roundChoice', choice }));
+  }, []);
 
   return (
     <Container>
       <Title>{t('roomId', { roomId })}</Title>
       {status === 'playing' ? (
-        <GameRoom round={round} players={players} />
+        <GameRoom
+          round={round}
+          roundPhase={roundPhase}
+          choosingPlayerIndex={choosingPlayerIndex}
+          players={players}
+          onRoundChoice={onRoundChoice}
+        />
       ) : (
         <WaitingRoom players={players} />
       )}

@@ -3,30 +3,58 @@
 import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
-import { formatCard, getRoundWinners } from '@/utils';
+import { formatCard, getPlayerCardDisplay, getRoundWinners } from '@/utils';
+import { Button } from '@/components';
 
 import { GameRoomProps } from './gameRoom.types';
 import {
   Container,
   RoundTitle,
   Text,
+  Buttons,
   PlayersTitle,
   PlayersList,
   PlayerItem,
 } from './gameRoom.styled';
 
-export default function GameRoom({ round, players }: GameRoomProps) {
+export default function GameRoom({
+  round,
+  roundPhase,
+  choosingPlayerIndex,
+  players,
+  onRoundChoice,
+}: GameRoomProps) {
   const { roomId } = useParams<{ roomId: string }>();
   const t = useTranslations('PlayerPage.GameRoom');
   const playerName = sessionStorage.getItem(`room:${roomId}:playerName`)?.trim();
   const currentPlayer = players.find((player) => player.name === playerName);
-  const winners = getRoundWinners(players);
+  const choosingPlayer = players[choosingPlayerIndex];
+  const isMyTurn =
+    roundPhase === 'choosing' &&
+    choosingPlayer !== undefined &&
+    currentPlayer?.id === choosingPlayer.id;
+  const buttonsDisabled =
+    roundPhase !== 'choosing' || !isMyTurn || currentPlayer?.choice !== null;
+  const winners = getRoundWinners(players, roundPhase);
 
   return (
     <Container>
       <RoundTitle>{t('round', { round })}</RoundTitle>
       {currentPlayer?.card && (
         <Text>{t('yourCard')} {formatCard(currentPlayer.card)}</Text>
+      )}
+      {roundPhase === 'choosing' && !isMyTurn && choosingPlayer && (
+        <Text>{t('waitingForPlayer', { name: choosingPlayer.name })}</Text>
+      )}
+      {roundPhase === 'choosing' && (
+        <Buttons>
+          <Button disabled={buttonsDisabled} onClick={() => onRoundChoice('in')}>
+            {t('in')}
+          </Button>
+          <Button disabled={buttonsDisabled} onClick={() => onRoundChoice('pass')}>
+            {t('pass')}
+          </Button>
+        </Buttons>
       )}
       {winners.length > 0 && (
         <Text>
@@ -37,7 +65,8 @@ export default function GameRoom({ round, players }: GameRoomProps) {
       <PlayersList>
         {players.map((player) => (
           <PlayerItem key={player.id}>
-            {player.name}: {player.card ? formatCard(player.card) : '—'} — {player.score} {t('points')}
+            {player.name}: {getPlayerCardDisplay(player, currentPlayer?.id, roundPhase)} —{' '}
+            {player.score} {t('points')}
           </PlayerItem>
         ))}
       </PlayersList>

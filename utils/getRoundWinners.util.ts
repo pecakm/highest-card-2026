@@ -1,11 +1,17 @@
-import type { Player } from '@/types';
+import type { Player, RoundPhase } from '@/types';
 
-export function getRoundWinners(players: Player[]): Player[] {
-  const highestValue = Math.max(...players.map((player) => player.card?.value ?? 0));
-
-  if (highestValue === 0) {
+export function getRoundWinners(players: Player[], roundPhase: RoundPhase): Player[] {
+  if (roundPhase !== 'resolved') {
     return [];
   }
 
-  return players.filter((player) => player.card?.value === highestValue);
+  const inPlayers = players.filter((player) => player.choice === 'in' && player.card);
+
+  if (inPlayers.length === 0) {
+    return [];
+  }
+
+  const highestValue = Math.max(...inPlayers.map((player) => player.card!.value));
+
+  return inPlayers.filter((player) => player.card!.value === highestValue);
 }
