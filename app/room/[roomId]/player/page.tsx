@@ -34,6 +34,10 @@ export default function PlayerPage() {
         sendMessage({ type: 'join', name: playerName });
       }
     },
+    onJoinRejected: () => {
+      sessionStorage.removeItem(getPlayerNameSessionKey(roomId));
+      router.replace(`/room/${roomId}/join?error=duplicateName`);
+    },
   });
 
   const onRoundChoice = useCallback(

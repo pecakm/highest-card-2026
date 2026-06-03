@@ -7,6 +7,7 @@ import type {
   RoomStatus,
   RoundChoice,
   RoundPhase,
+  JoinRejectedMessage,
 } from '@/types';
 import { createDeck, getPublicPlayerList, shuffleDeck } from '@/utils';
 import { NextRoundDelay } from '@/constants';
@@ -30,9 +31,35 @@ export default class GameServer implements Party.Server {
     const data = JSON.parse(message) as ClientMessage;
 
     if (data.type === 'join') {
+      const name = data.name.trim();
+
+      if (!name) {
+        return;
+      }
+
+      const normalizedName = name.toLowerCase();
+      const duplicatePlayer = this.getPlayerList().find(
+        (player) =>
+          player.id !== connection.id &&
+          player.name.trim().toLowerCase() === normalizedName,
+      );
+
+      if (duplicatePlayer) {
+        if (this.isConnectionActive(duplicatePlayer.id)) {
+          const rejected: JoinRejectedMessage = {
+            type: 'joinRejected',
+            reason: 'duplicateName',
+          };
+          connection.send(JSON.stringify(rejected));
+          return;
+        }
+
+        this.players.delete(duplicatePlayer.id);
+      }
+
       this.players.set(connection.id, {
         id: connection.id,
-        name: data.name,
+        name,
         score: 0,
         card: null,
         choice: null,
@@ -58,6 +85,16 @@ export default class GameServer implements Party.Server {
 
   getPlayerList(): Player[] {
     return Array.from(this.players.values());
+  }
+
+  isConnectionActive(connectionId: string): boolean {
+    for (const connection of this.room.getConnections()) {
+      if (connection.id === connectionId) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   clearNextRoundTimeout() {

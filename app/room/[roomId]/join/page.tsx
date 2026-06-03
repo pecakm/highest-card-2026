@@ -1,6 +1,6 @@
 'use client';
 
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -9,12 +9,14 @@ import { Input, Button } from '@/components';
 import { getPlayerNameSessionKey } from '@/constants';
 import { joinSchema, JoinFormValues } from '@/validations';
 
-import { Container, Title, Form } from './page.styled';
+import { Container, Title, Form, ErrorMessage } from './page.styled';
 
 export default function JoinPage() {
   const { roomId } = useParams<{ roomId: string }>();
   const t = useTranslations('JoinPage');
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const joinError = searchParams.get('error');
 
   const {
     control,
@@ -39,6 +41,9 @@ export default function JoinPage() {
   return (
     <Container>
       <Title>{t('roomId', { roomId })}</Title>
+      {joinError === 'duplicateName' && (
+        <ErrorMessage>{t('validation.duplicateName')}</ErrorMessage>
+      )}
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Controller
           name="username"

@@ -1,14 +1,4 @@
-import { Player } from './player.interface';
-import { RoomStatus } from './roomStatus.type';
-import { RoundPhase } from './roundPhase.type';
+import type { JoinRejectedMessage } from './joinRejectedMessage.type';
+import type { RoomStateMessage } from './roomStateMessage.type';
 
-export type ServerMessage = {
-  type: 'roomState';
-  status: RoomStatus;
-  round: number;
-  roundPhase: RoundPhase;
-  choosingPlayerIndex: number;
-  dealerPlayerIndex: number;
-  viewerPlayerId: string;
-  players: Player[];
-};
+export type ServerMessage = RoomStateMessage | JoinRejectedMessage;

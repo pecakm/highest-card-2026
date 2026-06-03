@@ -3,23 +3,26 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import PartySocket from 'partysocket';
 
-import {
-  ClientMessage,
-  ClientRoomState,
-  clientRoomStateFromMessage,
-  ServerMessage,
-} from '@/types';
+import { ClientMessage, ClientRoomState, ServerMessage } from '@/types';
 
 import { initialClientRoomState } from './useRoomSocket.constants';
 import type { UseRoomSocketOptions } from './useRoomSocket.types';
+import { clientRoomStateFromMessage } from './useRoomSocket.utils';
 
-export function useRoomSocket({ roomId, enabled = true, onOpen }: UseRoomSocketOptions) {
+export function useRoomSocket({
+  roomId,
+  enabled = true,
+  onOpen,
+  onJoinRejected,
+}: UseRoomSocketOptions) {
   const [room, setRoom] = useState<ClientRoomState>(initialClientRoomState);
   const socketRef = useRef<PartySocket | null>(null);
   const onOpenRef = useRef(onOpen);
+  const onJoinRejectedRef = useRef(onJoinRejected);
 
   useEffect(() => {
     onOpenRef.current = onOpen;
+    onJoinRejectedRef.current = onJoinRejected;
   });
 
   const send = useCallback((message: ClientMessage) => {
@@ -47,6 +50,11 @@ export function useRoomSocket({ roomId, enabled = true, onOpen }: UseRoomSocketO
 
       if (data.type === 'roomState') {
         setRoom(clientRoomStateFromMessage(data));
+        return;
+      }
+
+      if (data.type === 'joinRejected') {
+        onJoinRejectedRef.current?.(data.reason);
       }
     });
 
