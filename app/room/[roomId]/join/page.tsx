@@ -6,6 +6,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Input, Button } from '@/components';
+import { getPlayerNameSessionKey } from '@/constants';
 import { joinSchema, JoinFormValues } from '@/validations';
 
 import { Container, Title, Form } from './page.styled';
@@ -31,7 +32,7 @@ export default function JoinPage() {
 
     if (!username) return;
 
-    sessionStorage.setItem(`room:${roomId}:playerName`, username);
+    sessionStorage.setItem(getPlayerNameSessionKey(roomId), username);
     router.push(`/room/${roomId}/player`);
   };
 

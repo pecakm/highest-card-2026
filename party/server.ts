@@ -11,7 +11,7 @@ import type {
 import { createDeck, getPublicPlayerList, shuffleDeck } from '@/utils';
 import { NextRoundDelay } from '@/constants';
 
-export default class GameRoom implements Party.Server {
+export default class GameServer implements Party.Server {
   players = new Map<string, Player>();
   status: RoomStatus = 'lobby';
   round = 0;

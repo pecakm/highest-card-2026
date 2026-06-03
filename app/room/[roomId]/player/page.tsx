@@ -4,6 +4,7 @@ import { useCallback, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
+import { getPlayerNameSessionKey } from '@/constants';
 import { useRoomSocket } from '@/hooks';
 import { RoundChoice } from '@/types';
 
@@ -16,7 +17,7 @@ export default function PlayerPage() {
   const router = useRouter();
   const playerName =
     typeof window !== 'undefined'
-      ? sessionStorage.getItem(`room:${roomId}:playerName`)?.trim() ?? null
+      ? sessionStorage.getItem(getPlayerNameSessionKey(roomId))?.trim() ?? null
       : null;
 
   useEffect(() => {
