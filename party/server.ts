@@ -68,7 +68,11 @@ export default class GameServer implements Party.Server {
       this.sendRoomState();
     }
 
-    if (data.type === 'startGame' && this.status === 'lobby') {
+    if (
+      data.type === 'startGame' &&
+      this.status === 'lobby' &&
+      this.getPlayerList().length > 0
+    ) {
       this.status = 'playing';
       this.playRound();
     }

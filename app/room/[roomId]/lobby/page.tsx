@@ -62,7 +62,9 @@ export default function LobbyPage() {
         ))}
       </PlayersList>
 
-      <Button onClick={startGame}>{t('startGame')}</Button>
+      <Button disabled={room.players.length === 0} onClick={startGame}>
+        {t('startGame')}
+      </Button>
     </Container>
   );
 }
