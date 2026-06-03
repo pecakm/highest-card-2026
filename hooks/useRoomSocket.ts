@@ -9,8 +9,8 @@ import {
   clientRoomStateFromMessage,
   ServerMessage,
 } from '@/types';
-import { initialClientRoomState } from '@/constants';
 
+import { initialClientRoomState } from './useRoomSocket.constants';
 import type { UseRoomSocketOptions } from './useRoomSocket.types';
 
 export function useRoomSocket({ roomId, enabled = true, onOpen }: UseRoomSocketOptions) {
