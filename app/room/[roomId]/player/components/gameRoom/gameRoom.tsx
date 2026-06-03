@@ -1,6 +1,5 @@
 'use client';
 
-import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
 import { formatCard, getPlayerCardDisplay, getRoundWinners } from '@/utils';
@@ -18,6 +17,7 @@ import {
 } from './gameRoom.styled';
 
 export default function GameRoom({
+  playerName,
   round,
   roundPhase,
   choosingPlayerIndex,
@@ -25,9 +25,7 @@ export default function GameRoom({
   players,
   onRoundChoice,
 }: GameRoomProps) {
-  const { roomId } = useParams<{ roomId: string }>();
   const t = useTranslations('PlayerPage.GameRoom');
-  const playerName = sessionStorage.getItem(`room:${roomId}:playerName`)?.trim();
   const currentPlayer = players.find((player) => player.name === playerName);
   const choosingPlayer = players[choosingPlayerIndex];
   const isMyTurn =
