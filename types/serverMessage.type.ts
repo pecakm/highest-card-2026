@@ -9,5 +9,6 @@ export type ServerMessage = {
   roundPhase: RoundPhase;
   choosingPlayerIndex: number;
   dealerPlayerIndex: number;
+  viewerPlayerId: string;
   players: Player[];
 };

@@ -7,4 +7,5 @@ export const initialClientRoomState: ClientRoomState = {
   roundPhase: 'resolved',
   choosingPlayerIndex: 0,
   dealerPlayerIndex: -1,
+  viewerPlayerId: '',
 };

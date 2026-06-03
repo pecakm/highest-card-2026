@@ -17,7 +17,7 @@ import {
 } from './gameRoom.styled';
 
 export default function GameRoom({
-  playerName,
+  playerId,
   round,
   roundPhase,
   choosingPlayerIndex,
@@ -26,7 +26,7 @@ export default function GameRoom({
   onRoundChoice,
 }: GameRoomProps) {
   const t = useTranslations('PlayerPage.GameRoom');
-  const currentPlayer = players.find((player) => player.name === playerName);
+  const currentPlayer = players.find((player) => player.id === playerId);
   const choosingPlayer = players[choosingPlayerIndex];
   const isMyTurn =
     roundPhase === 'choosing' &&
@@ -38,6 +38,7 @@ export default function GameRoom({
 
   return (
     <Container>
+      <Text>{t('yourName')} {currentPlayer?.name}</Text>
       <RoundTitle>{t('round', { round })}</RoundTitle>
       {currentPlayer?.card && (
         <Text>{t('yourCard')} {formatCard(currentPlayer.card)}</Text>

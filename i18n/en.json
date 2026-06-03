@@ -42,6 +42,7 @@
       "players": "Players"
     },
     "GameRoom": {
+      "yourName": "Your name:",
       "round": "Round {round}",
       "yourCard": "Your card:",
       "points": "pts",

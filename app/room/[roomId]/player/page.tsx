@@ -45,9 +45,9 @@ export default function PlayerPage() {
   return (
     <Container>
       <Title>{t('roomId', { roomId })}</Title>
-      {room.status === 'playing' && playerName ? (
+      {room.status === 'playing' && room.viewerPlayerId ? (
         <GameRoom
-          playerName={playerName}
+          playerId={room.viewerPlayerId}
           round={room.round}
           roundPhase={room.roundPhase}
           choosingPlayerIndex={room.choosingPlayerIndex}

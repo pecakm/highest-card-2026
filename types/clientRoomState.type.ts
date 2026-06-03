@@ -10,5 +10,6 @@ export function clientRoomStateFromMessage(message: ServerMessage): ClientRoomSt
     roundPhase: message.roundPhase,
     choosingPlayerIndex: message.choosingPlayerIndex,
     dealerPlayerIndex: message.dealerPlayerIndex,
+    viewerPlayerId: message.viewerPlayerId,
   };
 }

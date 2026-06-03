@@ -147,6 +147,7 @@ export default class GameRoom implements Party.Server {
       roundPhase: this.roundPhase,
       choosingPlayerIndex: this.choosingPlayerIndex,
       dealerPlayerIndex: this.dealerPlayerIndex,
+      viewerPlayerId: viewerConnectionId,
       players: getPublicPlayerList(
         this.getPlayerList(),
         viewerConnectionId,
