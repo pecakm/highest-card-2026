@@ -1,5 +1,6 @@
 export * from './card.type';
 export * from './clientMessage.type';
+export * from './clientRoomState.type';
 export * from './player.interface';
 export * from './rank.type';
 export * from './roomStatus.type';
