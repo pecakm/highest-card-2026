@@ -8,7 +8,7 @@ import type {
   RoundChoice,
   RoundPhase,
 } from '@/types';
-import { createDeck, shuffleDeck } from '@/utils';
+import { createDeck, getPublicPlayerList, shuffleDeck } from '@/utils';
 import { NextRoundDelay } from '@/constants';
 
 export default class GameRoom implements Party.Server {
@@ -139,23 +139,30 @@ export default class GameRoom implements Party.Server {
     this.scheduleNextRound();
   }
 
-  sendRoomState(target?: Party.Connection) {
-    const message: ServerMessage = {
+  buildRoomStateMessage(viewerConnectionId: string): ServerMessage {
+    return {
       type: 'roomState',
       status: this.status,
       round: this.round,
       roundPhase: this.roundPhase,
       choosingPlayerIndex: this.choosingPlayerIndex,
       dealerPlayerIndex: this.dealerPlayerIndex,
-      players: this.getPlayerList(),
+      players: getPublicPlayerList(
+        this.getPlayerList(),
+        viewerConnectionId,
+        this.roundPhase,
+      ),
     };
+  }
 
-    const payload = JSON.stringify(message);
-
+  sendRoomState(target?: Party.Connection) {
     if (target) {
-      target.send(payload);
-    } else {
-      this.room.broadcast(payload);
+      target.send(JSON.stringify(this.buildRoomStateMessage(target.id)));
+      return;
+    }
+
+    for (const connection of this.room.getConnections()) {
+      connection.send(JSON.stringify(this.buildRoomStateMessage(connection.id)));
     }
   }
 }

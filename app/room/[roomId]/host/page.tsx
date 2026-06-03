@@ -49,7 +49,7 @@ export default function HostPage() {
           <PlayerItem key={player.id}>
             {player.name}
             {index === room.dealerPlayerIndex && ` ${t('dealer')}`}:{' '}
-            {getPlayerCardDisplay(player, undefined, room.roundPhase)} — {player.score}{t('points')}
+            {getPlayerCardDisplay(player)} — {player.score}{t('points')}
             {room.roundPhase === 'choosing' && player.choice && ` (${t(player.choice)})`}
             {winners.some((winner) => winner.id === player.id) ? ` ${t('winner')}` : ''}
           </PlayerItem>
