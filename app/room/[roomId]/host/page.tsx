@@ -16,8 +16,6 @@ export default function HostPage() {
   const { roomId } = useParams<{ roomId: string }>();
   const t = useTranslations('HostPage');
   const hasStartedRef = useRef(false);
-  const joinUrl = typeof window !== 'undefined' ? `${window.location.origin}/room/${roomId}/join` : '';
-
   const { room } = useRoomSocket({
     roomId,
     onOpen: (sendMessage) => {
@@ -30,6 +28,7 @@ export default function HostPage() {
     },
   });
 
+  const joinUrl = `${process.env.NEXT_PUBLIC_APP_URL}/room/${roomId}/join`;
   const choosingPlayer = room.players[room.choosingPlayerIndex];
   const winners = getRoundWinners(room.players, room.roundPhase);
 
