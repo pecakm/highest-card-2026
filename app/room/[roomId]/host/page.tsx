@@ -1,6 +1,5 @@
 'use client';
 
-import { useRef } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
@@ -15,18 +14,7 @@ import { Container, Title, Text, PlayersTitle, PlayersList, PlayerItem } from '.
 export default function HostPage() {
   const { roomId } = useParams<{ roomId: string }>();
   const t = useTranslations('HostPage');
-  const hasStartedRef = useRef(false);
-  const { room } = useRoomSocket({
-    roomId,
-    onOpen: (sendMessage) => {
-      if (hasStartedRef.current) {
-        return;
-      }
-
-      hasStartedRef.current = true;
-      sendMessage({ type: 'startGame' });
-    },
-  });
+  const { room } = useRoomSocket({ roomId });
 
   const joinUrl = `${process.env.NEXT_PUBLIC_APP_URL}/room/${roomId}/join`;
   const choosingPlayer = room.players[room.choosingPlayerIndex];
@@ -34,6 +22,10 @@ export default function HostPage() {
 
   function copyJoinUrl() {
     navigator.clipboard.writeText(joinUrl);
+  }
+
+  if (room.status !== 'playing') {
+    return null;
   }
 
   return (

@@ -22,7 +22,7 @@ export default function LobbyPage() {
   const { roomId } = useParams<{ roomId: string }>();
   const t = useTranslations('LobbyPage');
   const router = useRouter();
-  const { room } = useRoomSocket({ roomId });
+  const { room, send } = useRoomSocket({ roomId });
   const joinUrl = `${process.env.NEXT_PUBLIC_APP_URL}/room/${roomId}/join`;
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function LobbyPage() {
   }, [room.status, roomId, router]);
 
   function startGame() {
-    router.push(`/room/${roomId}/host`);
+    send({ type: 'startGame' });
   }
 
   function copyJoinUrl() {
