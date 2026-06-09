@@ -70,12 +70,19 @@ export default function GameRoom({
           </PlayerItem>
         ))}
       </PlayersList>
-      {currentPlayer?.card && (
-        <YourCard>
-          <Card card={currentPlayer.card} size="lg" />
-        </YourCard>
+      {!!currentPlayer && (
+        <>
+          <YourCard>
+            <Card card={currentPlayer.card} size="lg" />
+          </YourCard>
+          <Text>
+            {currentPlayer.name}{playerId === dealerPlayer?.id && ` ${t('dealer')}`}: {currentPlayer.score} {t('points')}
+            {roundPhase === 'choosing' && currentPlayer.choice && ` (${t(currentPlayer.choice)})`}
+          </Text>
+        </>
       )}
-            {roundPhase === 'choosing' && canChooseThisRound && (
+      
+      {roundPhase === 'choosing' && canChooseThisRound && (
         <Buttons>
           <Button disabled={buttonsDisabled} onClick={() => onRoundChoice('in')}>
             {t('in')}

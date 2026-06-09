@@ -10,6 +10,5 @@ export function getDisplayPlayers(players: Player[], currentPlayerId: string): P
   return [
     ...players.slice(currentPlayerIndex + 1),
     ...players.slice(0, currentPlayerIndex),
-    players[currentPlayerIndex],
   ];
 }
