@@ -1,4 +1,4 @@
-import type { Player } from '@/types';
+import type { Card, Player } from '@/types';
 
 export function getNextChoosingPlayerIndex(
   playerList: Player[],
@@ -16,4 +16,30 @@ export function getNextChoosingPlayerIndex(
   }
 
   return null;
+}
+
+export function dealCardsToPlayers(players: Player[], deck: Card[]): void {
+  for (const player of players) {
+    player.card = deck.pop() ?? null;
+    player.choice = null;
+  }
+}
+
+
+export function applyRoundScores(players: Player[]): void {
+  const inPlayers = players.filter((player) => player.choice === 'in' && player.card);
+
+  if (inPlayers.length === 0) {
+    return;
+  }
+
+  const highestValue = Math.max(...inPlayers.map((player) => player.card!.value));
+
+  for (const player of inPlayers) {
+    if (player.card!.value === highestValue) {
+      player.score += 1;
+    } else {
+      player.score -= 1;
+    }
+  }
 }

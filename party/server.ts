@@ -12,7 +12,7 @@ import type {
 import { createDeck, getPublicPlayerList, shuffleDeck } from '@/utils';
 import { NextRoundDelay } from '@/constants';
 
-import { getNextChoosingPlayerIndex } from './server.utils';
+import { getNextChoosingPlayerIndex, dealCardsToPlayers, applyRoundScores } from './server.utils';
 
 export default class GameServer implements Party.Server {
   players = new Map<string, Player>();
@@ -135,11 +135,7 @@ export default class GameServer implements Party.Server {
     }
 
     const deck = shuffleDeck(createDeck());
-
-    for (const player of playerList) {
-      player.card = deck.pop() ?? null;
-      player.choice = null;
-    }
+    dealCardsToPlayers(playerList, deck);
 
     this.round += 1;
     this.dealerPlayerIndex = (this.round - 1) % playerList.length;
@@ -199,19 +195,7 @@ export default class GameServer implements Party.Server {
   }
 
   resolveRound(playerList: Player[]) {
-    const inPlayers = playerList.filter((player) => player.choice === 'in' && player.card);
-
-    if (inPlayers.length > 0) {
-      const highestValue = Math.max(...inPlayers.map((player) => player.card!.value));
-
-      for (const player of inPlayers) {
-        if (player.card!.value === highestValue) {
-          player.score += 1;
-        } else {
-          player.score -= 1;
-        }
-      }
-    }
+    applyRoundScores(playerList);
 
     this.roundPhase = 'resolved';
     this.sendRoomState();
