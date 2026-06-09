@@ -28,8 +28,10 @@ export default function GameRoom({
   const t = useTranslations('PlayerPage.GameRoom');
   const currentPlayer = players.find((player) => player.id === playerId);
   const choosingPlayer = players[choosingPlayerIndex];
+  const canChooseThisRound = Boolean(currentPlayer?.card);
   const isMyTurn =
     roundPhase === 'choosing' &&
+    canChooseThisRound &&
     choosingPlayer !== undefined &&
     currentPlayer?.id === choosingPlayer.id;
   const buttonsDisabled =
@@ -43,10 +45,13 @@ export default function GameRoom({
       {currentPlayer?.card && (
         <Text>{t('yourCard')} {formatCard(currentPlayer.card)}</Text>
       )}
-      {roundPhase === 'choosing' && !isMyTurn && choosingPlayer && (
+      {roundPhase === 'choosing' && !canChooseThisRound && (
+        <Text>{t('waitingForNextRound')}</Text>
+      )}
+      {roundPhase === 'choosing' && canChooseThisRound && !isMyTurn && choosingPlayer && (
         <Text>{t('waitingForPlayer', { name: choosingPlayer.name })}</Text>
       )}
-      {roundPhase === 'choosing' && (
+      {roundPhase === 'choosing' && canChooseThisRound && (
         <Buttons>
           <Button disabled={buttonsDisabled} onClick={() => onRoundChoice('in')}>
             {t('in')}

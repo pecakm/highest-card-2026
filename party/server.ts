@@ -12,6 +12,8 @@ import type {
 import { createDeck, getPublicPlayerList, shuffleDeck } from '@/utils';
 import { NextRoundDelay } from '@/constants';
 
+import { getNextChoosingPlayerIndex } from './server.utils';
+
 export default class GameServer implements Party.Server {
   players = new Map<string, Player>();
   status: RoomStatus = 'lobby';
@@ -64,6 +66,10 @@ export default class GameServer implements Party.Server {
         card: null,
         choice: null,
       });
+
+      if (this.status === 'playing' && this.roundPhase === 'choosing') {
+        this.ensureChoosingPlayerIsEligible();
+      }
 
       this.sendRoomState();
     }
@@ -142,22 +148,54 @@ export default class GameServer implements Party.Server {
     this.sendRoomState();
   }
 
+  ensureChoosingPlayerIsEligible() {
+    const playerList = this.getPlayerList();
+    const currentPlayer = playerList[this.choosingPlayerIndex];
+
+    if (currentPlayer?.card && currentPlayer.choice === null) {
+      return;
+    }
+
+    const nextIndex = getNextChoosingPlayerIndex(
+      playerList,
+      this.choosingPlayerIndex,
+    );
+
+    if (nextIndex === null) {
+      this.resolveRound(playerList);
+      return;
+    }
+
+    this.choosingPlayerIndex = nextIndex;
+  }
+
   handleRoundChoice(playerId: string, choice: RoundChoice) {
     const playerList = this.getPlayerList();
     const currentPlayer = playerList[this.choosingPlayerIndex];
 
-    if (!currentPlayer || currentPlayer.id !== playerId) {
+    if (!currentPlayer || currentPlayer.id !== playerId || !currentPlayer.card) {
       return;
     }
 
     currentPlayer.choice = choice;
-    this.choosingPlayerIndex = (this.choosingPlayerIndex + 1) % playerList.length;
 
-    if (playerList.every((player) => player.choice !== null)) {
+    if (playerList.every((player) => !player.card || player.choice !== null)) {
       this.resolveRound(playerList);
-    } else {
-      this.sendRoomState();
+      return;
     }
+
+    const nextIndex = getNextChoosingPlayerIndex(
+      playerList,
+      this.choosingPlayerIndex,
+    );
+
+    if (nextIndex === null) {
+      this.resolveRound(playerList);
+      return;
+    }
+
+    this.choosingPlayerIndex = nextIndex;
+    this.sendRoomState();
   }
 
   resolveRound(playerList: Player[]) {

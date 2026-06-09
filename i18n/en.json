@@ -52,6 +52,7 @@
       "in": "In",
       "pass": "Pass",
       "waitingForPlayer": "Waiting for {name} to choose…",
+      "waitingForNextRound": "You'll play starting next round",
       "dealer": "(Dealer)"
     }
   }
