@@ -1,10 +1,10 @@
-import type { Card } from './card.type';
+import type { CardData } from './cardData.interface';
 import type { RoundChoice } from './roundChoice.type';
 
 export interface Player {
   id: string;
   name: string;
   score: number;
-  card: Card | null;
+  card: CardData | null;
   choice: RoundChoice | null;
 }

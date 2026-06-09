@@ -2,23 +2,22 @@
 
 import { useTranslations } from 'next-intl';
 
-import { formatCard, getPlayerCardDisplay, getRoundWinners } from '@/utils';
-import { Button } from '@/components';
+import { getRoundWinners } from '@/utils';
+import { Button, Card } from '@/components';
 
 import { GameRoomProps } from './gameRoom.types';
 import {
   Container,
-  RoundTitle,
   Text,
   Buttons,
-  PlayersTitle,
   PlayersList,
   PlayerItem,
+  PlayerCard,
+  YourCard,
 } from './gameRoom.styled';
 
 export default function GameRoom({
   playerId,
-  round,
   roundPhase,
   choosingPlayerIndex,
   dealerPlayerIndex,
@@ -40,18 +39,40 @@ export default function GameRoom({
 
   return (
     <Container>
-      <Text>{t('yourName')} {currentPlayer?.name}</Text>
-      <RoundTitle>{t('round', { round })}</RoundTitle>
-      {currentPlayer?.card && (
-        <Text>{t('yourCard')} {formatCard(currentPlayer.card)}</Text>
-      )}
       {roundPhase === 'choosing' && !canChooseThisRound && (
         <Text>{t('waitingForNextRound')}</Text>
       )}
-      {roundPhase === 'choosing' && canChooseThisRound && !isMyTurn && choosingPlayer && (
+      {/* {roundPhase === 'choosing' && canChooseThisRound && !isMyTurn && choosingPlayer && (
         <Text>{t('waitingForPlayer', { name: choosingPlayer.name })}</Text>
+      )} */}
+      {winners.length > 0 && (
+        <Text>
+          {t('winners')} {winners.map((winner) => winner.name).join(', ')}
+        </Text>
       )}
-      {roundPhase === 'choosing' && canChooseThisRound && (
+      <PlayersList>
+        {players.map((player, index) => (
+          <PlayerItem key={player.id}>
+            <PlayerCard>
+              <Card
+                card={player.card}
+                faceDown={roundPhase === 'choosing' && !player.card}
+                size="sm"
+              />
+            </PlayerCard>
+            {player.name}
+            {index === dealerPlayerIndex && ` ${t('dealer')}`}: {player.score}
+            {t('points')}
+            {roundPhase === 'choosing' && player.choice && ` (${t(player.choice)})`}
+          </PlayerItem>
+        ))}
+      </PlayersList>
+      {currentPlayer?.card && (
+        <YourCard>
+          <Card card={currentPlayer.card} size="lg" />
+        </YourCard>
+      )}
+            {roundPhase === 'choosing' && canChooseThisRound && (
         <Buttons>
           <Button disabled={buttonsDisabled} onClick={() => onRoundChoice('in')}>
             {t('in')}
@@ -61,22 +82,6 @@ export default function GameRoom({
           </Button>
         </Buttons>
       )}
-      {winners.length > 0 && (
-        <Text>
-          {t('winners')} {winners.map((winner) => winner.name).join(', ')}
-        </Text>
-      )}
-      <PlayersTitle>{t('scoreboard')}</PlayersTitle>
-      <PlayersList>
-        {players.map((player, index) => (
-          <PlayerItem key={player.id}>
-            {player.name}
-            {index === dealerPlayerIndex && ` ${t('dealer')}`}:{' '}
-            {getPlayerCardDisplay(player)} — {player.score}{t('points')}
-            {roundPhase === 'choosing' && player.choice && ` (${t(player.choice)})`}
-          </PlayerItem>
-        ))}
-      </PlayersList>
     </Container>
   );
 }

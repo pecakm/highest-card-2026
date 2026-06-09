@@ -2,7 +2,6 @@ import { Player, RoundChoice, RoundPhase } from '@/types';
 
 export interface GameRoomProps {
   playerId: string;
-  round: number;
   roundPhase: RoundPhase;
   choosingPlayerIndex: number;
   dealerPlayerIndex: number;

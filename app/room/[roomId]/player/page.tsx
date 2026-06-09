@@ -53,7 +53,6 @@ export default function PlayerPage() {
       {room.status === 'playing' && room.viewerPlayerId ? (
         <GameRoom
           playerId={room.viewerPlayerId}
-          round={room.round}
           roundPhase={room.roundPhase}
           choosingPlayerIndex={room.choosingPlayerIndex}
           dealerPlayerIndex={room.dealerPlayerIndex}

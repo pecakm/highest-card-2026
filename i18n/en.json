@@ -43,12 +43,8 @@
       "players": "Players"
     },
     "GameRoom": {
-      "yourName": "Your name:",
-      "round": "Round {round}",
-      "yourCard": "Your card:",
       "points": "pts",
       "winners": "Winner:",
-      "scoreboard": "Scoreboard",
       "in": "In",
       "pass": "Pass",
       "waitingForPlayer": "Waiting for {name} to choose…",

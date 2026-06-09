@@ -5,11 +5,19 @@ import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { QRCodeCanvas } from 'qrcode.react';
 
-import { Button } from '@/components';
+import { Button, Card } from '@/components';
 import { useRoomSocket } from '@/hooks';
-import { getPlayerCardDisplay, getRoundWinners } from '@/utils';
+import { getRoundWinners } from '@/utils';
 
-import { Container, Title, Text, PlayersTitle, PlayersList, PlayerItem } from './page.styled';
+import {
+  Container,
+  Title,
+  Text,
+  PlayersTitle,
+  PlayersList,
+  PlayerItem,
+  PlayerCard,
+} from './page.styled';
 
 export default function HostPage() {
   const { roomId } = useParams<{ roomId: string }>();
@@ -39,9 +47,16 @@ export default function HostPage() {
       <PlayersList>
         {room.players.map((player, index) => (
           <PlayerItem key={player.id}>
+            <PlayerCard>
+              <Card
+                card={player.card}
+                faceDown={room.roundPhase === 'choosing' && !player.card}
+                size="sm"
+              />
+            </PlayerCard>
             {player.name}
-            {index === room.dealerPlayerIndex && ` ${t('dealer')}`}:{' '}
-            {getPlayerCardDisplay(player)} — {player.score}{t('points')}
+            {index === room.dealerPlayerIndex && ` ${t('dealer')}`}: {player.score}
+            {t('points')}
             {room.roundPhase === 'choosing' && player.choice && ` (${t(player.choice)})`}
             {winners.some((winner) => winner.id === player.id) ? ` ${t('winner')}` : ''}
           </PlayerItem>
