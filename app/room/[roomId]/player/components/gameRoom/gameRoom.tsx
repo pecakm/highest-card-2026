@@ -6,6 +6,7 @@ import { getRoundWinners } from '@/utils';
 import { Button, Card } from '@/components';
 
 import { GameRoomProps } from './gameRoom.types';
+import { getDisplayPlayers } from './gameRoom.utils';
 import {
   Container,
   Text,
@@ -26,6 +27,8 @@ export default function GameRoom({
 }: GameRoomProps) {
   const t = useTranslations('PlayerPage.GameRoom');
   const currentPlayer = players.find((player) => player.id === playerId);
+  const dealerPlayer = players[dealerPlayerIndex];
+  const displayPlayers = getDisplayPlayers(players, playerId);
   const choosingPlayer = players[choosingPlayerIndex];
   const canChooseThisRound = Boolean(currentPlayer?.card);
   const isMyTurn =
@@ -51,7 +54,7 @@ export default function GameRoom({
         </Text>
       )}
       <PlayersList>
-        {players.map((player, index) => (
+        {displayPlayers.map((player) => (
           <PlayerItem key={player.id}>
             <PlayerCard>
               <Card
@@ -61,7 +64,7 @@ export default function GameRoom({
               />
             </PlayerCard>
             {player.name}
-            {index === dealerPlayerIndex && ` ${t('dealer')}`}: {player.score}
+            {player.id === dealerPlayer?.id && ` ${t('dealer')}`}: {player.score}
             {t('points')}
             {roundPhase === 'choosing' && player.choice && ` (${t(player.choice)})`}
           </PlayerItem>
