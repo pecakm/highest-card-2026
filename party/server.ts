@@ -89,7 +89,57 @@ export default class GameServer implements Party.Server {
   }
 
   onClose(connection: Party.Connection) {
+    const playerList = this.getPlayerList();
+    const leavingPlayerIndex = playerList.findIndex(
+      (player) => player.id === connection.id,
+    );
+    const wasChoosingPlayer =
+      leavingPlayerIndex !== -1 &&
+      leavingPlayerIndex === this.choosingPlayerIndex;
+    let nextChoosingPlayerId: string | null = null;
+
+    if (
+      wasChoosingPlayer &&
+      this.status === 'playing' &&
+      this.roundPhase === 'choosing'
+    ) {
+      const nextIndex = getNextChoosingPlayerIndex(
+        playerList,
+        leavingPlayerIndex,
+      );
+
+      nextChoosingPlayerId =
+        nextIndex !== null ? playerList[nextIndex].id : null;
+    }
+
     this.players.delete(connection.id);
+
+    if (
+      this.status === 'playing' &&
+      this.roundPhase === 'choosing' &&
+      leavingPlayerIndex !== -1
+    ) {
+      if (!wasChoosingPlayer && leavingPlayerIndex < this.choosingPlayerIndex) {
+        this.choosingPlayerIndex -= 1;
+      }
+
+      if (leavingPlayerIndex < this.dealerPlayerIndex) {
+        this.dealerPlayerIndex -= 1;
+      }
+
+      if (wasChoosingPlayer) {
+        if (nextChoosingPlayerId) {
+          this.choosingPlayerIndex = this.getPlayerList().findIndex(
+            (player) => player.id === nextChoosingPlayerId,
+          );
+        } else {
+          this.ensureChoosingPlayerIsEligible();
+        }
+      } else {
+        this.ensureChoosingPlayerIsEligible();
+      }
+    }
+
     this.sendRoomState();
   }
 
