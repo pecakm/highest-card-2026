@@ -7,18 +7,12 @@
   },
   "LobbyPage": {
     "players": "Players",
-    "startGame": "Start Game",
-    "copyLink": "Copy link",
-    "joinUrl": "Join URL",
-    "invitePlayers": "Invite players"
+    "startGame": "Start Game"
   },
   "HostPage": {
     "players": "Players",
     "points": "pts",
     "winner": "Winner",
-    "copyLink": "Copy link",
-    "joinUrl": "Join URL",
-    "invitePlayers": "Invite players",
     "dealer": "Dealer",
     "choosing": "Choosing",
     "in": "In",
@@ -51,5 +45,10 @@
       "choosing": "Choosing",
       "yourTurn": "Your turn"
     }
+  },
+  "InvitePlayers": {
+    "copyLink": "Copy link",
+    "joinUrl": "Join URL",
+    "invitePlayers": "Invite players"
   }
 }

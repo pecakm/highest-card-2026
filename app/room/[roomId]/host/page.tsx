@@ -2,9 +2,8 @@
 
 import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { QRCodeCanvas } from 'qrcode.react';
 
-import { Button, Card } from '@/components';
+import { Card, InvitePlayers } from '@/components';
 import { useRoomSocket } from '@/hooks';
 import { getRoundWinners } from '@/utils';
 import {
@@ -21,12 +20,6 @@ import {
   Score,
   BadgeRow,
   Badge,
-  InviteSection,
-  JoinPanel,
-  QrCode,
-  JoinUrlRow,
-  JoinUrlLabel,
-  JoinUrlLink,
 } from './page.styled';
 
 export default function HostPage() {
@@ -37,10 +30,6 @@ export default function HostPage() {
   const joinUrl = `${process.env.NEXT_PUBLIC_APP_URL}/room/${roomId}/join`;
   const choosingPlayer = room.players[room.choosingPlayerIndex];
   const winners = getRoundWinners(room.players, room.roundPhase);
-
-  function copyJoinUrl() {
-    navigator.clipboard.writeText(joinUrl);
-  }
 
   if (room.status !== 'playing') {
     return null;
@@ -86,23 +75,7 @@ export default function HostPage() {
           })}
         </PlayersGrid>
 
-        {joinUrl && (
-          <InviteSection>
-            <SectionLabel>{t('invitePlayers')}</SectionLabel>
-            <JoinPanel>
-              <QrCode>
-                <QRCodeCanvas value={joinUrl} size={148} level="M" includeMargin={false} />
-              </QrCode>
-              <JoinUrlRow>
-                <JoinUrlLabel>{t('joinUrl')}</JoinUrlLabel>
-                <JoinUrlLink href={joinUrl} target="_blank" rel="noopener noreferrer">
-                  {joinUrl}
-                </JoinUrlLink>
-              </JoinUrlRow>
-              <Button onClick={copyJoinUrl} variant="secondary">{t('copyLink')}</Button>
-            </JoinPanel>
-          </InviteSection>
-        )}
+        <InvitePlayers joinUrl={joinUrl} />
       </Table>
     </PageContainer>
   );

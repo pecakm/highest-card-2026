@@ -3,9 +3,8 @@
 import { useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { QRCodeCanvas } from 'qrcode.react';
 
-import { Button } from '@/components';
+import { Button, InvitePlayers } from '@/components';
 import { useRoomSocket } from '@/hooks';
 import {
   PageContainer,
@@ -16,15 +15,7 @@ import {
   PlayerSeat,
 } from '@/ui';
 
-import {
-  StartSection,
-  InviteSection,
-  JoinPanel,
-  QrCode,
-  JoinUrlRow,
-  JoinUrlLabel,
-  JoinUrlLink,
-} from './page.styled';
+import { StartSection } from './page.styled';
 
 export default function LobbyPage() {
   const { roomId } = useParams<{ roomId: string }>();
@@ -41,10 +32,6 @@ export default function LobbyPage() {
 
   function startGame() {
     send({ type: 'startGame' });
-  }
-
-  function copyJoinUrl() {
-    navigator.clipboard.writeText(joinUrl);
   }
 
   if (room.status !== 'lobby') {
@@ -64,30 +51,12 @@ export default function LobbyPage() {
             </PlayerSeat>
           ))}
         </PlayersGrid>
-
         <StartSection>
           <Button disabled={room.players.length === 0} onClick={startGame}>
             {t('startGame')}
           </Button>
         </StartSection>
-
-        {joinUrl && (
-          <InviteSection>
-            <SectionLabel>{t('invitePlayers')}</SectionLabel>
-            <JoinPanel>
-              <QrCode>
-                <QRCodeCanvas value={joinUrl} size={148} level="M" includeMargin={false} />
-              </QrCode>
-              <JoinUrlRow>
-                <JoinUrlLabel>{t('joinUrl')}</JoinUrlLabel>
-                <JoinUrlLink href={joinUrl} target="_blank" rel="noopener noreferrer">
-                  {joinUrl}
-                </JoinUrlLink>
-              </JoinUrlRow>
-              <Button onClick={copyJoinUrl} variant="secondary">{t('copyLink')}</Button>
-            </JoinPanel>
-          </InviteSection>
-        )}
+        <InvitePlayers joinUrl={joinUrl} />
       </Table>
     </PageContainer>
   );
