@@ -15,14 +15,14 @@
   "HostPage": {
     "players": "Players",
     "points": "pts",
-    "winner": "(winner)",
-    "winners": "Winner:",
+    "winner": "Winner",
     "copyLink": "Copy link",
-    "joinUrl": "Join URL:",
-    "waitingForPlayer": "Waiting for {name} to choose…",
-    "dealer": "(Dealer)",
-    "in": "in",
-    "pass": "pass"
+    "joinUrl": "Join URL",
+    "invitePlayers": "Invite players",
+    "dealer": "Dealer",
+    "choosing": "Choosing",
+    "in": "In",
+    "pass": "Pass"
   },
   "JoinPage": {
     "yourName": "Your name",

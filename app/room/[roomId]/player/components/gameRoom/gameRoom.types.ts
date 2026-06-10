@@ -1,6 +1,4 @@
-import { Player, RoundChoice, RoundPhase } from '@/types';
-
-export type BadgeVariant = 'dealer' | 'choice' | 'winner' | 'turn';
+import { Player, RoundChoice, RoundPhase, BadgeVariant } from '@/types';
 
 export interface GameRoomProps {
   playerId: string;

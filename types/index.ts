@@ -1,3 +1,4 @@
+export * from './badgeVariant.type';
 export * from './cardData.interface';
 export * from './clientMessage.type';
 export * from './clientRoomState.type';

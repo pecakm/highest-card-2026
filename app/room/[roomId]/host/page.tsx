@@ -1,21 +1,32 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { QRCodeCanvas } from 'qrcode.react';
 
 import { Button, Card } from '@/components';
 import { useRoomSocket } from '@/hooks';
 import { getRoundWinners } from '@/utils';
+import {
+  RoomContainer,
+  Table,
+  SectionLabel,
+  PlayersGrid,
+  SeatName,
+} from '@/ui';
 
 import {
-  Container,
-  Text,
-  PlayersTitle,
-  PlayersList,
-  PlayerItem,
-  PlayerCard,
+  PlayerSeat,
+  PlayerCardSlot,
+  Score,
+  BadgeRow,
+  Badge,
+  JoinPanel,
+  QrCode,
+  JoinUrlRow,
+  JoinUrlLabel,
+  JoinUrlLink,
+  CopyButtonRow,
 } from './page.styled';
 
 export default function HostPage() {
@@ -36,43 +47,63 @@ export default function HostPage() {
   }
 
   return (
-    <Container>
-      {room.roundPhase === 'choosing' && choosingPlayer && (
-        <Text>{t('waitingForPlayer', { name: choosingPlayer.name })}</Text>
-      )}
-      <PlayersTitle>{t('players')}</PlayersTitle>
-      <PlayersList>
-        {room.players.map((player, index) => (
-          <PlayerItem key={player.id}>
-            <PlayerCard>
-              <Card
-                card={player.card}
-                faceDown={room.roundPhase === 'choosing' && !player.card}
-                size="sm"
-              />
-            </PlayerCard>
-            {player.name}
-            {index === room.dealerPlayerIndex && ` ${t('dealer')}`}: {player.score}
-            {t('points')}
-            {room.roundPhase === 'choosing' && player.choice && ` (${t(player.choice)})`}
-            {winners.some((winner) => winner.id === player.id) ? ` ${t('winner')}` : ''}
-          </PlayerItem>
-        ))}
-      </PlayersList>
-      {winners.length > 0 && (
-        <Text>
-          {t('winners')} {winners.map((winner) => winner.name).join(', ')}
-        </Text>
-      )}
+    <RoomContainer>
+      <Table>
+        <SectionLabel>
+          {t('players')} ({room.players.length})
+        </SectionLabel>
+        <PlayersGrid>
+          {room.players.map((player, index) => {
+            const isChoosing =
+              room.roundPhase === 'choosing' && choosingPlayer?.id === player.id;
+            const isWinner = winners.some((winner) => winner.id === player.id);
+
+            return (
+              <PlayerSeat key={player.id} $isChoosing={isChoosing} $isWinner={isWinner}>
+                <PlayerCardSlot>
+                  <Card
+                    card={player.card}
+                    faceDown={room.roundPhase === 'choosing' && !player.card}
+                    size="sm"
+                  />
+                </PlayerCardSlot>
+                <SeatName>{player.name}</SeatName>
+                <Score>
+                  {player.score} {t('points')}
+                </Score>
+                <BadgeRow>
+                  {index === room.dealerPlayerIndex && (
+                    <Badge $variant="dealer">{t('dealer')}</Badge>
+                  )}
+                  {isChoosing && <Badge $variant="turn">{t('choosing')}</Badge>}
+                  {room.roundPhase === 'choosing' && player.choice && (
+                    <Badge $variant="choice">{t(player.choice)}</Badge>
+                  )}
+                  {isWinner && <Badge $variant="winner">{t('winner')}</Badge>}
+                </BadgeRow>
+              </PlayerSeat>
+            );
+          })}
+        </PlayersGrid>
+      </Table>
+
       {joinUrl && (
-        <>
-          <QRCodeCanvas value={joinUrl} />
-          <Text>
-            {t('joinUrl')} <Link href={joinUrl}>{joinUrl}</Link>
-          </Text>
-          <Button onClick={copyJoinUrl}>{t('copyLink')}</Button>
-        </>
+        <Table>
+          <SectionLabel>{t('invitePlayers')}</SectionLabel>
+          <JoinPanel>
+            <QrCode>
+              <QRCodeCanvas value={joinUrl} size={148} level="M" includeMargin={false} />
+            </QrCode>
+            <JoinUrlRow>
+              <JoinUrlLabel>{t('joinUrl')}</JoinUrlLabel>
+              <JoinUrlLink href={joinUrl}>{joinUrl}</JoinUrlLink>
+            </JoinUrlRow>
+            <CopyButtonRow>
+              <Button onClick={copyJoinUrl}>{t('copyLink')}</Button>
+            </CopyButtonRow>
+          </JoinPanel>
+        </Table>
       )}
-    </Container>
+    </RoomContainer>
   );
 }
