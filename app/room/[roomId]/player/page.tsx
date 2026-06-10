@@ -2,18 +2,16 @@
 
 import { useCallback, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
 
 import { getPlayerNameSessionKey } from '@/constants';
 import { useRoomSocket } from '@/hooks';
 import { RoundChoice } from '@/types';
 
 import { GameRoom, WaitingRoom } from './components';
-import { Container, Title } from './page.styled';
+import { Container } from './page.styled';
 
 export default function PlayerPage() {
   const { roomId } = useParams<{ roomId: string }>();
-  const t = useTranslations('PlayerPage');
   const router = useRouter();
   const playerName =
     typeof window !== 'undefined'
@@ -49,7 +47,6 @@ export default function PlayerPage() {
 
   return (
     <Container>
-      <Title>{t('roomId', { roomId })}</Title>
       {room.status === 'playing' && room.viewerPlayerId ? (
         <GameRoom
           playerId={room.viewerPlayerId}
