@@ -1,43 +1,8 @@
-import styled, { css, keyframes } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { Color } from '@/ui';
 
-import { OpponentCardProps, BadgeProps } from './gameRoom.types';
-
-const pulse = keyframes`
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(255, 213, 79, 0.45);
-  }
-  50% {
-    box-shadow: 0 0 0 6px rgba(255, 213, 79, 0);
-  }
-`;
-
-export const OpponentCard = styled.li<OpponentCardProps>`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.875rem 0.75rem;
-  min-width: 5.75rem;
-  border-radius: 1rem;
-  background: rgba(0, 0, 0, 0.22);
-  border: 2px solid rgba(255, 255, 255, 0.06);
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    transform 0.2s ease;
-
-  ${({ $isChoosing }) => $isChoosing && css`
-    border-color: rgba(255, 213, 79, 0.65);
-    animation: ${pulse} 2s ease-in-out infinite;
-  `}
-
-  ${({ $isWinner }) => $isWinner && css`
-    border-color: rgba(102, 187, 106, 0.55);
-    box-shadow: 0 0 16px rgba(102, 187, 106, 0.2);
-  `}
-`;
+import { BadgeProps } from './gameRoom.types';
 
 export const PlayerCardSlot = styled.div`
   display: flex;

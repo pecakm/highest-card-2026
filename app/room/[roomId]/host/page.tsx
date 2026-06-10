@@ -13,10 +13,10 @@ import {
   SectionLabel,
   PlayersGrid,
   SeatName,
+  PlayerSeat,
 } from '@/ui';
 
 import {
-  PlayerSeat,
   PlayerCardSlot,
   Score,
   BadgeRow,

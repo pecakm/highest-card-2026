@@ -11,12 +11,12 @@ import {
   SectionLabel,
   PlayersGrid,
   SeatName,
+  PlayerSeat,
 } from '@/ui';
 
 import { GameRoomProps } from './gameRoom.types';
 import { getDisplayPlayers } from './gameRoom.utils';
 import {
-  OpponentCard,
   PlayerCardSlot,
   Score,
   BadgeRow,
@@ -57,12 +57,7 @@ export default function GameRoom({
       {roundPhase === 'choosing' && !canChooseThisRound && (
         <StatusBanner $variant="waiting">{t('waitingForNextRound')}</StatusBanner>
       )}
-      {/* {winners.length > 0 && (
-        <StatusBanner $variant="success">
-          {t('winners')} {winners.map((winner) => winner.name).join(', ')}
-        </StatusBanner>
-      )} */}
-
+      
       <Table>
         {displayPlayers.length > 0 && (
           <>
@@ -74,7 +69,7 @@ export default function GameRoom({
                 const isWinner = winners.some((winner) => winner.id === player.id);
 
                 return (
-                  <OpponentCard
+                  <PlayerSeat
                     key={player.id}
                     $isChoosing={isChoosing}
                     $isWinner={isWinner}
@@ -100,7 +95,7 @@ export default function GameRoom({
                       )}
                       {isWinner && <Badge $variant="winner">{t('winner')}</Badge>}
                     </BadgeRow>
-                  </OpponentCard>
+                  </PlayerSeat>
                 );
               })}
             </PlayersGrid>

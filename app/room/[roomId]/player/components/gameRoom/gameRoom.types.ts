@@ -9,11 +9,6 @@ export interface GameRoomProps {
   onRoundChoice: (choice: RoundChoice) => void;
 }
 
-export interface OpponentCardProps {
-  $isChoosing?: boolean;
-  $isWinner?: boolean;
-}
-
 export interface BadgeProps {
   $variant: BadgeVariant;
 }
