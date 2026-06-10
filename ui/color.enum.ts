@@ -15,4 +15,7 @@ export enum Color {
   Choice = '#e0e0e0',
   ChoiceBg = 'rgba(224, 224, 224, 0.15)',
   ChoiceBorder = 'rgba(224, 224, 224, 0.35)',
+  Error = '#d32f2f',
+  ErrorBg = 'rgba(211, 47, 47, 0.15)',
+  ErrorBorder = 'rgba(211, 47, 47, 0.4)',
 }

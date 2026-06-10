@@ -9,7 +9,7 @@ import { Input, Button } from '@/components';
 import { getPlayerNameSessionKey } from '@/constants';
 import { joinSchema, JoinFormValues } from '@/validations';
 
-import { Container, Title, Form, ErrorMessage } from './page.styled';
+import { Container, Form, ErrorMessage } from './page.styled';
 
 export default function JoinPage() {
   const { roomId } = useParams<{ roomId: string }>();
@@ -40,7 +40,6 @@ export default function JoinPage() {
 
   return (
     <Container>
-      <Title>{t('roomId', { roomId })}</Title>
       {joinError === 'duplicateName' && (
         <ErrorMessage>{t('validation.duplicateName')}</ErrorMessage>
       )}

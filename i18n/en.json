@@ -27,7 +27,6 @@
     "pass": "pass"
   },
   "JoinPage": {
-    "roomId": "Room ID: {roomId}",
     "yourName": "Your name",
     "joinRoom": "Join room",
     "validation": {
