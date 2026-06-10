@@ -1,7 +1,5 @@
 import { Player, RoundChoice, RoundPhase } from '@/types';
 
-export type StatusVariant = 'info' | 'success' | 'waiting';
-
 export type BadgeVariant = 'dealer' | 'choice' | 'winner' | 'turn';
 
 export interface GameRoomProps {
@@ -11,10 +9,6 @@ export interface GameRoomProps {
   dealerPlayerIndex: number;
   players: Player[];
   onRoundChoice: (choice: RoundChoice) => void;
-}
-
-export interface StatusBannerProps {
-  $variant: StatusVariant;
 }
 
 export interface OpponentCardProps {

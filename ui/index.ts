@@ -1,2 +1,3 @@
 export * from './color.enum';
-export * from './tableSurface';
+export * from './roomLayout.styled';
+export * from './tableSurface.styled';

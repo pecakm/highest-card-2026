@@ -38,11 +38,11 @@
   },
   "PlayerPage": {
     "WaitingRoom": {
-      "players": "Players"
+      "players": "Players",
+      "waitingForGame": "Waiting for the host to start the game…"
     },
     "GameRoom": {
       "points": "pts",
-      "winners": "Winner:",
       "in": "In",
       "pass": "Pass",
       "waitingForNextRound": "You'll play starting next round",

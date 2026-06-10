@@ -1,26 +1,8 @@
 import styled, { css, keyframes } from 'styled-components';
 
-import { Color, tableSurface } from '@/ui';
+import { Color } from '@/ui';
 
-import { StatusVariant, StatusBannerProps, OpponentCardProps, BadgeProps } from './gameRoom.types';
-
-const statusStyles: Record<StatusVariant, ReturnType<typeof css>> = {
-  info: css`
-    background: ${Color.InfoBg};
-    border-color: ${Color.InfoBorder};
-    color: ${Color.Info};
-  `,
-  success: css`
-    background: ${Color.SuccessBg};
-    border-color: ${Color.SuccessBorder};
-    color: ${Color.Success};
-  `,
-  waiting: css`
-    background: ${Color.WaitingBg};
-    border-color: ${Color.WaitingBorder};
-    color: ${Color.Waiting};
-  `,
-};
+import { OpponentCardProps, BadgeProps } from './gameRoom.types';
 
 const pulse = keyframes`
   0%, 100% {
@@ -29,51 +11,6 @@ const pulse = keyframes`
   50% {
     box-shadow: 0 0 0 6px rgba(255, 213, 79, 0);
   }
-`;
-
-export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  width: 100%;
-`;
-
-export const StatusBanner = styled.div<StatusBannerProps>`
-  padding: 0.75rem 1rem;
-  border-radius: 0.75rem;
-  border: 1px solid transparent;
-  text-align: center;
-  font-size: 0.9375rem;
-  font-weight: 500;
-  line-height: 1.4;
-
-  ${({ $variant }) => statusStyles[$variant]}
-`;
-
-export const Table = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  ${tableSurface}
-`;
-
-export const SectionLabel = styled.h2`
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(254, 254, 254, 0.45);
-  text-align: center;
-  margin-block-end: 0.25rem;
-`;
-
-export const OpponentsGrid = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.75rem;
-  list-style: none;
-  padding: 0;
 `;
 
 export const OpponentCard = styled.li<OpponentCardProps>`
@@ -106,16 +43,6 @@ export const PlayerCardSlot = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`;
-
-export const OpponentName = styled.span`
-  font-size: 0.875rem;
-  font-weight: 600;
-  text-align: center;
-  max-width: 6.5rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 `;
 
 export const Score = styled.span`

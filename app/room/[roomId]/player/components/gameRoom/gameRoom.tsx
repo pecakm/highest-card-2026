@@ -4,18 +4,20 @@ import { useTranslations } from 'next-intl';
 
 import { getRoundWinners } from '@/utils';
 import { Button, Card } from '@/components';
+import {
+  RoomContainer,
+  StatusBanner,
+  Table,
+  SectionLabel,
+  PlayersGrid,
+  SeatName,
+} from '@/ui';
 
 import { GameRoomProps } from './gameRoom.types';
 import { getDisplayPlayers } from './gameRoom.utils';
 import {
-  Container,
-  StatusBanner,
-  Table,
-  SectionLabel,
-  OpponentsGrid,
   OpponentCard,
   PlayerCardSlot,
-  OpponentName,
   Score,
   BadgeRow,
   Badge,
@@ -51,26 +53,21 @@ export default function GameRoom({
   const isCurrentPlayerWinner = winners.some((winner) => winner.id === playerId);
 
   return (
-    <Container>
+    <RoomContainer>
       {roundPhase === 'choosing' && !canChooseThisRound && (
         <StatusBanner $variant="waiting">{t('waitingForNextRound')}</StatusBanner>
       )}
-      {/* {roundPhase === 'choosing' && canChooseThisRound && !isMyTurn && choosingPlayer && (
-        <StatusBanner $variant="info">
-          {t('waitingForPlayer', { name: choosingPlayer.name })}
-        </StatusBanner>
-      )} */}
-      {winners.length > 0 && (
+      {/* {winners.length > 0 && (
         <StatusBanner $variant="success">
           {t('winners')} {winners.map((winner) => winner.name).join(', ')}
         </StatusBanner>
-      )}
+      )} */}
 
       <Table>
         {displayPlayers.length > 0 && (
           <>
             <SectionLabel>{t('opponents')}</SectionLabel>
-            <OpponentsGrid>
+            <PlayersGrid>
               {displayPlayers.map((player) => {
                 const isChoosing =
                   roundPhase === 'choosing' && choosingPlayer?.id === player.id;
@@ -89,7 +86,7 @@ export default function GameRoom({
                         size="sm"
                       />
                     </PlayerCardSlot>
-                    <OpponentName>{player.name}</OpponentName>
+                    <SeatName>{player.name}</SeatName>
                     <Score>
                       {player.score} {t('points')}
                     </Score>
@@ -106,7 +103,7 @@ export default function GameRoom({
                   </OpponentCard>
                 );
               })}
-            </OpponentsGrid>
+            </PlayersGrid>
           </>
         )}
 
@@ -152,6 +149,6 @@ export default function GameRoom({
           </PlayerSection>
         )}
       </Table>
-    </Container>
+    </RoomContainer>
   );
 }

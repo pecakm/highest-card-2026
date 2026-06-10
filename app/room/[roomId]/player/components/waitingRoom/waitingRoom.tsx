@@ -1,26 +1,35 @@
 import { useTranslations } from 'next-intl';
 
-import { WaitingRoomProps } from './waitingRoom.types';
 import {
-  Container,
-  PlayersTitle,
-  PlayersList,
-  PlayerItem,
-} from './waitingRoom.styled';
+  RoomContainer,
+  StatusBanner,
+  Table,
+  SectionLabel,
+  PlayersGrid,
+  SeatName,
+} from '@/ui';
+
+import { WaitingRoomProps } from './waitingRoom.types';
+import { PlayerCard } from './waitingRoom.styled';
 
 export default function WaitingRoom({ players }: WaitingRoomProps) {
   const t = useTranslations('PlayerPage.WaitingRoom');
 
   return (
-    <Container>
-      <PlayersTitle>{t('players')} ({players.length})</PlayersTitle>
-      <PlayersList>
-        {players.map((player) => (
-          <PlayerItem key={player.id}>
-            {player.name}
-          </PlayerItem>
-        ))}
-      </PlayersList>
-    </Container>
+    <RoomContainer>
+      <StatusBanner $variant="waiting">{t('waitingForGame')}</StatusBanner>
+      <Table>
+        <SectionLabel>
+          {t('players')} ({players.length})
+        </SectionLabel>
+        <PlayersGrid>
+          {players.map((player) => (
+            <PlayerCard key={player.id}>
+              <SeatName>{player.name}</SeatName>
+            </PlayerCard>
+          ))}
+        </PlayersGrid>
+      </Table>
+    </RoomContainer>
   );
 }
