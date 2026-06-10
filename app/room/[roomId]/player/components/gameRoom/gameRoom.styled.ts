@@ -1,6 +1,5 @@
 import styled, { css, keyframes } from 'styled-components';
 
-import { Button } from '@/components';
 import { Color } from '@/ui/color.enum';
 
 import { StatusVariant, StatusBannerProps, OpponentCardProps, BadgeProps } from './gameRoom.types';
@@ -221,62 +220,8 @@ export const ActionButtons = styled.div`
   width: 100%;
   max-width: 22rem;
   margin-block-start: 0.25rem;
-`;
 
-const actionButtonBase = css`
-  && {
+  & > * {
     flex: 1;
-    padding-block: 0.875rem;
-    font-size: 1rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    border-radius: 0.75rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-    transition:
-      transform 0.15s ease,
-      box-shadow 0.15s ease,
-      opacity 0.15s ease;
-
-    &:not(:disabled):hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
-    }
-
-    &:not(:disabled):active {
-      transform: translateY(0);
-    }
-
-    &:disabled {
-      opacity: 0.45;
-      box-shadow: none;
-    }
-  }
-`;
-
-export const InButton = styled(Button)`
-  ${actionButtonBase}
-
-  && {
-    background: linear-gradient(180deg, #4caf50 0%, #2e7d32 100%);
-    color: #fff;
-
-    &:not(:disabled):hover {
-      background: linear-gradient(180deg, #66bb6a 0%, #388e3c 100%);
-    }
-  }
-`;
-
-export const PassButton = styled(Button)`
-  ${actionButtonBase}
-
-  && {
-    background: rgba(255, 255, 255, 0.08);
-    color: rgba(254, 254, 254, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-
-    &:not(:disabled):hover {
-      background: rgba(255, 255, 255, 0.14);
-    }
   }
 `;

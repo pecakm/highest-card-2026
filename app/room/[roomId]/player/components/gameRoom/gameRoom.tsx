@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 
 import { getRoundWinners } from '@/utils';
-import { Card } from '@/components';
+import { Button, Card } from '@/components';
 
 import { GameRoomProps } from './gameRoom.types';
 import { getDisplayPlayers } from './gameRoom.utils';
@@ -24,8 +24,6 @@ import {
   PlayerInfo,
   PlayerName,
   ActionButtons,
-  InButton,
-  PassButton,
 } from './gameRoom.styled';
 
 export default function GameRoom({
@@ -139,12 +137,16 @@ export default function GameRoom({
 
             {roundPhase === 'choosing' && canChooseThisRound && (
               <ActionButtons>
-                <InButton disabled={buttonsDisabled} onClick={() => onRoundChoice('in')}>
+                <Button disabled={buttonsDisabled} onClick={() => onRoundChoice('in')}>
                   {t('in')}
-                </InButton>
-                <PassButton disabled={buttonsDisabled} onClick={() => onRoundChoice('pass')}>
+                </Button>
+                <Button
+                  variant="secondary"
+                  disabled={buttonsDisabled}
+                  onClick={() => onRoundChoice('pass')}
+                >
                   {t('pass')}
-                </PassButton>
+                </Button>
               </ActionButtons>
             )}
           </PlayerSection>
