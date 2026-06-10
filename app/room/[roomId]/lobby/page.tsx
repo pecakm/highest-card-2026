@@ -2,20 +2,28 @@
 
 import { useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { QRCodeCanvas } from 'qrcode.react';
 
 import { Button } from '@/components';
 import { useRoomSocket } from '@/hooks';
+import {
+  PageContainer,
+  Table,
+  SectionLabel,
+  PlayersGrid,
+  SeatName,
+  PlayerSeat,
+} from '@/ui';
 
 import {
-  Container,
-  Title,
-  Text,
-  PlayersTitle,
-  PlayersList,
-  PlayerItem,
+  StartSection,
+  InviteSection,
+  JoinPanel,
+  QrCode,
+  JoinUrlRow,
+  JoinUrlLabel,
+  JoinUrlLink,
 } from './page.styled';
 
 export default function LobbyPage() {
@@ -44,27 +52,43 @@ export default function LobbyPage() {
   }
 
   return (
-    <Container>
-      <Title>{t('roomId', { roomId })}</Title>
-      {joinUrl && (
-        <>
-          <QRCodeCanvas value={joinUrl} />
-          <Text>
-            {t('joinUrl')} <Link href={joinUrl}>{joinUrl}</Link>
-          </Text>
-          <Button onClick={copyJoinUrl}>{t('copyLink')}</Button>
-        </>
-      )}
-      <PlayersTitle>{t('players')} ({room.players.length})</PlayersTitle>
-      <PlayersList>
-        {room.players.map((player) => (
-          <PlayerItem key={player.id}>{player.id} - {player.name}</PlayerItem>
-        ))}
-      </PlayersList>
+    <PageContainer>
+      <Table>
+        <SectionLabel>
+          {t('players')} ({room.players.length})
+        </SectionLabel>
+        <PlayersGrid>
+          {room.players.map((player) => (
+            <PlayerSeat key={player.id}>
+              <SeatName>{player.name}</SeatName>
+            </PlayerSeat>
+          ))}
+        </PlayersGrid>
 
-      <Button disabled={room.players.length === 0} onClick={startGame}>
-        {t('startGame')}
-      </Button>
-    </Container>
+        <StartSection>
+          <Button disabled={room.players.length === 0} onClick={startGame}>
+            {t('startGame')}
+          </Button>
+        </StartSection>
+
+        {joinUrl && (
+          <InviteSection>
+            <SectionLabel>{t('invitePlayers')}</SectionLabel>
+            <JoinPanel>
+              <QrCode>
+                <QRCodeCanvas value={joinUrl} size={148} level="M" includeMargin={false} />
+              </QrCode>
+              <JoinUrlRow>
+                <JoinUrlLabel>{t('joinUrl')}</JoinUrlLabel>
+                <JoinUrlLink href={joinUrl} target="_blank" rel="noopener noreferrer">
+                  {joinUrl}
+                </JoinUrlLink>
+              </JoinUrlRow>
+              <Button onClick={copyJoinUrl} variant="secondary">{t('copyLink')}</Button>
+            </JoinPanel>
+          </InviteSection>
+        )}
+      </Table>
+    </PageContainer>
   );
 }

@@ -95,9 +95,11 @@ export default function HostPage() {
               </QrCode>
               <JoinUrlRow>
                 <JoinUrlLabel>{t('joinUrl')}</JoinUrlLabel>
-                <JoinUrlLink href={joinUrl}>{joinUrl}</JoinUrlLink>
+                <JoinUrlLink href={joinUrl} target="_blank" rel="noopener noreferrer">
+                  {joinUrl}
+                </JoinUrlLink>
               </JoinUrlRow>
-              <Button onClick={copyJoinUrl}>{t('copyLink')}</Button>
+              <Button onClick={copyJoinUrl} variant="secondary">{t('copyLink')}</Button>
             </JoinPanel>
           </InviteSection>
         )}

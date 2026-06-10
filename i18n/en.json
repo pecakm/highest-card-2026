@@ -6,11 +6,11 @@
     }
   },
   "LobbyPage": {
-    "roomId": "Room ID: {roomId}",
     "players": "Players",
     "startGame": "Start Game",
     "copyLink": "Copy link",
-    "joinUrl": "Join URL:"
+    "joinUrl": "Join URL",
+    "invitePlayers": "Invite players"
   },
   "HostPage": {
     "players": "Players",
