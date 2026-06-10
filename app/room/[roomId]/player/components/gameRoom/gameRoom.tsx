@@ -3,18 +3,29 @@
 import { useTranslations } from 'next-intl';
 
 import { getRoundWinners } from '@/utils';
-import { Button, Card } from '@/components';
+import { Card } from '@/components';
 
 import { GameRoomProps } from './gameRoom.types';
 import { getDisplayPlayers } from './gameRoom.utils';
 import {
   Container,
-  Text,
-  Buttons,
-  PlayersList,
-  PlayerItem,
-  PlayerCard,
+  StatusBanner,
+  Table,
+  SectionLabel,
+  OpponentsGrid,
+  OpponentCard,
+  PlayerCardSlot,
+  OpponentName,
+  Score,
+  BadgeRow,
+  Badge,
+  PlayerSection,
   YourCard,
+  PlayerInfo,
+  PlayerName,
+  ActionButtons,
+  InButton,
+  PassButton,
 } from './gameRoom.styled';
 
 export default function GameRoom({
@@ -39,59 +50,106 @@ export default function GameRoom({
   const buttonsDisabled =
     roundPhase !== 'choosing' || !isMyTurn || currentPlayer?.choice !== null;
   const winners = getRoundWinners(players, roundPhase);
+  const isCurrentPlayerWinner = winners.some((winner) => winner.id === playerId);
 
   return (
     <Container>
       {roundPhase === 'choosing' && !canChooseThisRound && (
-        <Text>{t('waitingForNextRound')}</Text>
+        <StatusBanner $variant="waiting">{t('waitingForNextRound')}</StatusBanner>
       )}
       {/* {roundPhase === 'choosing' && canChooseThisRound && !isMyTurn && choosingPlayer && (
-        <Text>{t('waitingForPlayer', { name: choosingPlayer.name })}</Text>
+        <StatusBanner $variant="info">
+          {t('waitingForPlayer', { name: choosingPlayer.name })}
+        </StatusBanner>
       )} */}
       {winners.length > 0 && (
-        <Text>
+        <StatusBanner $variant="success">
           {t('winners')} {winners.map((winner) => winner.name).join(', ')}
-        </Text>
+        </StatusBanner>
       )}
-      <PlayersList>
-        {displayPlayers.map((player) => (
-          <PlayerItem key={player.id}>
-            <PlayerCard>
-              <Card
-                card={player.card}
-                faceDown={roundPhase === 'choosing' && !player.card}
-                size="sm"
-              />
-            </PlayerCard>
-            {player.name}
-            {player.id === dealerPlayer?.id && ` ${t('dealer')}`}: {player.score}
-            {t('points')}
-            {roundPhase === 'choosing' && player.choice && ` (${t(player.choice)})`}
-          </PlayerItem>
-        ))}
-      </PlayersList>
-      {!!currentPlayer && (
-        <>
-          <YourCard>
-            <Card card={currentPlayer.card} size="lg" />
-          </YourCard>
-          <Text>
-            {currentPlayer.name}{playerId === dealerPlayer?.id && ` ${t('dealer')}`}: {currentPlayer.score} {t('points')}
-            {roundPhase === 'choosing' && currentPlayer.choice && ` (${t(currentPlayer.choice)})`}
-          </Text>
-        </>
-      )}
-      
-      {roundPhase === 'choosing' && canChooseThisRound && (
-        <Buttons>
-          <Button disabled={buttonsDisabled} onClick={() => onRoundChoice('in')}>
-            {t('in')}
-          </Button>
-          <Button disabled={buttonsDisabled} onClick={() => onRoundChoice('pass')}>
-            {t('pass')}
-          </Button>
-        </Buttons>
-      )}
+
+      <Table>
+        {displayPlayers.length > 0 && (
+          <>
+            <SectionLabel>{t('opponents')}</SectionLabel>
+            <OpponentsGrid>
+              {displayPlayers.map((player) => {
+                const isChoosing =
+                  roundPhase === 'choosing' && choosingPlayer?.id === player.id;
+                const isWinner = winners.some((winner) => winner.id === player.id);
+
+                return (
+                  <OpponentCard
+                    key={player.id}
+                    $isChoosing={isChoosing}
+                    $isWinner={isWinner}
+                  >
+                    <PlayerCardSlot>
+                      <Card
+                        card={player.card}
+                        faceDown={roundPhase === 'choosing' && !player.card}
+                        size="sm"
+                      />
+                    </PlayerCardSlot>
+                    <OpponentName>{player.name}</OpponentName>
+                    <Score>
+                      {player.score} {t('points')}
+                    </Score>
+                    <BadgeRow>
+                      {player.id === dealerPlayer?.id && (
+                        <Badge $variant="dealer">{t('dealer')}</Badge>
+                      )}
+                      {isChoosing && <Badge $variant="turn">{t('choosing')}</Badge>}
+                      {roundPhase === 'choosing' && player.choice && (
+                        <Badge $variant="choice">{t(player.choice)}</Badge>
+                      )}
+                      {isWinner && <Badge $variant="winner">{t('winner')}</Badge>}
+                    </BadgeRow>
+                  </OpponentCard>
+                );
+              })}
+            </OpponentsGrid>
+          </>
+        )}
+
+        {!!currentPlayer && (
+          <PlayerSection>
+            <SectionLabel>{t('yourHand')}</SectionLabel>
+            <YourCard>
+              <Card card={currentPlayer.card} size="lg" />
+            </YourCard>
+            <PlayerInfo>
+              <PlayerName>{currentPlayer.name}</PlayerName>
+              <Score>
+                {currentPlayer.score} {t('points')}
+              </Score>
+              <BadgeRow>
+                {playerId === dealerPlayer?.id && (
+                  <Badge $variant="dealer">{t('dealer')}</Badge>
+                )}
+                {isMyTurn && <Badge $variant="turn">{t('yourTurn')}</Badge>}
+                {roundPhase === 'choosing' && currentPlayer.choice && (
+                  <Badge $variant="choice">{t(currentPlayer.choice)}</Badge>
+                )}
+                {isCurrentPlayerWinner && (
+                  <Badge $variant="winner">{t('winner')}</Badge>
+                )}
+              </BadgeRow>
+            </PlayerInfo>
+
+            {roundPhase === 'choosing' && canChooseThisRound && (
+              <ActionButtons>
+                <InButton disabled={buttonsDisabled} onClick={() => onRoundChoice('in')}>
+                  {t('in')}
+                </InButton>
+                <PassButton disabled={buttonsDisabled} onClick={() => onRoundChoice('pass')}>
+                  {t('pass')}
+                </PassButton>
+              </ActionButtons>
+            )}
+          </PlayerSection>
+        )}
+      </Table>
     </Container>
   );
 }
