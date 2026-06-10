@@ -100,12 +100,22 @@ export const Badge = styled.span<BadgeProps>`
   }}
 `;
 
+export const InviteSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-block-start: 1.25rem;
+  padding-block-start: 1.5rem;
+  border-block-start: 1px solid rgba(255, 255, 255, 0.08);
+`;
+
 export const JoinPanel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  margin-block-start: 0.5rem;
+  width: 100%;
 `;
 
 export const QrCode = styled.div`

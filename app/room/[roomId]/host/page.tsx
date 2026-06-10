@@ -8,7 +8,7 @@ import { Button, Card } from '@/components';
 import { useRoomSocket } from '@/hooks';
 import { getRoundWinners } from '@/utils';
 import {
-  RoomContainer,
+  PageContainer,
   Table,
   SectionLabel,
   PlayersGrid,
@@ -21,6 +21,7 @@ import {
   Score,
   BadgeRow,
   Badge,
+  InviteSection,
   JoinPanel,
   QrCode,
   JoinUrlRow,
@@ -47,7 +48,7 @@ export default function HostPage() {
   }
 
   return (
-    <RoomContainer>
+    <PageContainer>
       <Table>
         <SectionLabel>
           {t('players')} ({room.players.length})
@@ -85,25 +86,25 @@ export default function HostPage() {
             );
           })}
         </PlayersGrid>
-      </Table>
 
-      {joinUrl && (
-        <Table>
-          <SectionLabel>{t('invitePlayers')}</SectionLabel>
-          <JoinPanel>
-            <QrCode>
-              <QRCodeCanvas value={joinUrl} size={148} level="M" includeMargin={false} />
-            </QrCode>
-            <JoinUrlRow>
-              <JoinUrlLabel>{t('joinUrl')}</JoinUrlLabel>
-              <JoinUrlLink href={joinUrl}>{joinUrl}</JoinUrlLink>
-            </JoinUrlRow>
-            <CopyButtonRow>
-              <Button onClick={copyJoinUrl}>{t('copyLink')}</Button>
-            </CopyButtonRow>
-          </JoinPanel>
-        </Table>
-      )}
-    </RoomContainer>
+        {joinUrl && (
+          <InviteSection>
+            <SectionLabel>{t('invitePlayers')}</SectionLabel>
+            <JoinPanel>
+              <QrCode>
+                <QRCodeCanvas value={joinUrl} size={148} level="M" includeMargin={false} />
+              </QrCode>
+              <JoinUrlRow>
+                <JoinUrlLabel>{t('joinUrl')}</JoinUrlLabel>
+                <JoinUrlLink href={joinUrl}>{joinUrl}</JoinUrlLink>
+              </JoinUrlRow>
+              <CopyButtonRow>
+                <Button onClick={copyJoinUrl}>{t('copyLink')}</Button>
+              </CopyButtonRow>
+            </JoinPanel>
+          </InviteSection>
+        )}
+      </Table>
+    </PageContainer>
   );
 }

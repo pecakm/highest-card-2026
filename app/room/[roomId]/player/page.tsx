@@ -5,10 +5,10 @@ import { useParams, useRouter } from 'next/navigation';
 
 import { getPlayerNameSessionKey } from '@/constants';
 import { useRoomSocket } from '@/hooks';
+import { PageContainer } from '@/ui';
 import { RoundChoice } from '@/types';
 
 import { GameRoom, WaitingRoom } from './components';
-import { Container } from './page.styled';
 
 export default function PlayerPage() {
   const { roomId } = useParams<{ roomId: string }>();
@@ -46,7 +46,7 @@ export default function PlayerPage() {
   );
 
   return (
-    <Container>
+    <PageContainer>
       {room.status === 'playing' && room.viewerPlayerId ? (
         <GameRoom
           playerId={room.viewerPlayerId}
@@ -59,6 +59,6 @@ export default function PlayerPage() {
       ) : (
         <WaitingRoom players={room.players} />
       )}
-    </Container>
+    </PageContainer>
   );
 }

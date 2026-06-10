@@ -7,9 +7,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Input, Button } from '@/components';
 import { getPlayerNameSessionKey } from '@/constants';
+import { PageContainer } from '@/ui';
 import { joinSchema, JoinFormValues } from '@/validations';
 
-import { Container, Form, ErrorMessage } from './page.styled';
+import { Form, ErrorMessage } from './page.styled';
 
 export default function JoinPage() {
   const { roomId } = useParams<{ roomId: string }>();
@@ -39,7 +40,7 @@ export default function JoinPage() {
   };
 
   return (
-    <Container>
+    <PageContainer>
       {joinError === 'duplicateName' && (
         <ErrorMessage>{t('validation.duplicateName')}</ErrorMessage>
       )}
@@ -65,6 +66,6 @@ export default function JoinPage() {
           {t('joinRoom')}
         </Button>
       </Form>
-    </Container>
+    </PageContainer>
   );
 }
