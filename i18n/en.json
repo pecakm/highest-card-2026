@@ -13,8 +13,6 @@
     "joinUrl": "Join URL:"
   },
   "HostPage": {
-    "roomId": "Room ID: {roomId}",
-    "round": "Round {round}",
     "players": "Players",
     "points": "pts",
     "winner": "(winner)",

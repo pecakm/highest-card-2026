@@ -11,7 +11,6 @@ import { getRoundWinners } from '@/utils';
 
 import {
   Container,
-  Title,
   Text,
   PlayersTitle,
   PlayersList,
@@ -38,8 +37,6 @@ export default function HostPage() {
 
   return (
     <Container>
-      <Title>{t('roomId', { roomId })}</Title>
-      <Title>{t('round', { round: room.round })}</Title>
       {room.roundPhase === 'choosing' && choosingPlayer && (
         <Text>{t('waitingForPlayer', { name: choosingPlayer.name })}</Text>
       )}
