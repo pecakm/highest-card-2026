@@ -57,15 +57,14 @@ export default function GameRoom({
       {roundPhase === 'choosing' && !canChooseThisRound && (
         <StatusBanner $variant="waiting">{t('waitingForNextRound')}</StatusBanner>
       )}
-      
+
       <Table>
         {displayPlayers.length > 0 && (
           <>
             <SectionLabel>{t('opponents')}</SectionLabel>
             <PlayersGrid>
               {displayPlayers.map((player) => {
-                const isChoosing =
-                  roundPhase === 'choosing' && choosingPlayer?.id === player.id;
+                const isChoosing = roundPhase === 'choosing' && choosingPlayer?.id === player.id;
                 const isWinner = winners.some((winner) => winner.id === player.id);
 
                 return (

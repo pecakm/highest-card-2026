@@ -99,7 +99,6 @@ export const JoinUrlRow = styled.div`
   gap: 0.35rem;
   text-align: center;
   width: 100%;
-  max-width: 28rem;
 `;
 
 export const JoinUrlLabel = styled.span`
@@ -120,9 +119,4 @@ export const JoinUrlLink = styled(Link)`
   &:hover {
     color: #fff;
   }
-`;
-
-export const CopyButtonRow = styled.div`
-  width: 100%;
-  max-width: 14rem;
 `;

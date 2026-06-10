@@ -27,7 +27,6 @@ import {
   JoinUrlRow,
   JoinUrlLabel,
   JoinUrlLink,
-  CopyButtonRow,
 } from './page.styled';
 
 export default function HostPage() {
@@ -98,9 +97,7 @@ export default function HostPage() {
                 <JoinUrlLabel>{t('joinUrl')}</JoinUrlLabel>
                 <JoinUrlLink href={joinUrl}>{joinUrl}</JoinUrlLink>
               </JoinUrlRow>
-              <CopyButtonRow>
-                <Button onClick={copyJoinUrl}>{t('copyLink')}</Button>
-              </CopyButtonRow>
+              <Button onClick={copyJoinUrl}>{t('copyLink')}</Button>
             </JoinPanel>
           </InviteSection>
         )}
