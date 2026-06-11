@@ -1,0 +1,70 @@
+import styled from 'styled-components';
+
+import { Color } from './color.enum';
+import { tableSurface } from './tableSurface.styled';
+
+export const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 42rem;
+  margin-inline: auto;
+  padding: 1.5rem 1rem 2.5rem;
+`;
+
+export const RoomContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+`;
+
+export const StatusBanner = styled.div`
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid ${Color.WaitingBorder};
+  text-align: center;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.4;
+  background: ${Color.WaitingBg};
+  color: ${Color.Waiting};
+`;
+
+export const Table = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  ${tableSurface}
+`;
+
+export const SectionLabel = styled.h2`
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(254, 254, 254, 0.45);
+  text-align: center;
+  margin-block-end: 0.25rem;
+`;
+
+export const PlayersGrid = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+`;
+
+export const SeatName = styled.span`
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-align: center;
+  max-width: 6.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;

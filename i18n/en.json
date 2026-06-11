@@ -1,0 +1,86 @@
+{
+  "HomePage": {
+    "hero": {
+      "tagline": "A quick bluff-and-guess card game you can play with friends in the same room or online."
+    },
+    "getStarted": {
+      "getStarted": "Get started",
+      "getStartedDescription": "No account or download needed — create a room and start playing in seconds.",
+      "createRoom": "Create room"
+    },
+    "howToPlay": {
+      "howToPlay": "How to play",
+      "steps": {
+        "create": {
+          "title": "Create a room",
+          "description": "Start a new game from this page. You'll land in the lobby as the host."
+        },
+        "invite": {
+          "title": "Invite players",
+          "description": "Share the join link or QR code from the lobby. Each player picks a name and joins on their phone or laptop."
+        },
+        "choose": {
+          "title": "Choose in or pass",
+          "description": "Every round, each player gets a card. In turn, decide whether to stay in the round or pass and sit it out."
+        },
+        "win": {
+          "title": "Highest card wins",
+          "description": "Among players who chose in, the highest card wins the round. Ties share the win."
+        }
+      },
+      "scoring": "Winners earn +1 point. Everyone else who stayed in loses −1 point. Passing keeps your score unchanged."
+    }
+  },
+  "LobbyPage": {
+    "players": "Players",
+    "startGame": "Start Game"
+  },
+  "HostPage": {
+    "players": "Players"
+  },
+  "JoinPage": {
+    "yourName": "Your name",
+    "joinRoom": "Join room",
+    "validation": {
+      "usernameMin": "Username must have at least 2 characters",
+      "usernameMax": "Username can have max 20 characters",
+      "usernamePattern": "Use only letters, numbers, _ or -",
+      "duplicateName": "That name is already taken. Please choose another."
+    }
+  },
+  "PlayerPage": {
+    "waitingRoom": {
+      "players": "Players",
+      "waitingForGame": "Waiting for the host to start the game…"
+    },
+    "gameRoom": {
+      "waitingForNextRound": "You'll play starting next round",
+      "opponents": "Opponents"
+    },
+    "currentPlayer": {
+      "yourHand": "Your hand",
+      "points": "pts",
+      "in": "In",
+      "pass": "Pass",
+      "dealer": "Dealer",
+      "yourTurn": "Your turn",
+      "winner": "Winner"
+    }
+  },
+  "InvitePlayers": {
+    "copyLink": "Copy link",
+    "joinUrl": "Join URL",
+    "invitePlayers": "Invite players"
+  },
+  "Navbar": {
+    "title": "Highest Card"
+  },
+  "PlayerSeatList": {
+    "points": "pts",
+    "winner": "Winner",
+    "dealer": "Dealer",
+    "choosing": "Choosing",
+    "in": "In",
+    "pass": "Pass"
+  }
+}
