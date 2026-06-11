@@ -13,7 +13,7 @@ import { WaitingRoomProps } from './waitingRoom.types';
 import { PlayerCard } from './waitingRoom.styled';
 
 export default function WaitingRoom({ players }: WaitingRoomProps) {
-  const t = useTranslations('PlayerPage.WaitingRoom');
+  const t = useTranslations('PlayerPage.waitingRoom');
 
   return (
     <RoomContainer>

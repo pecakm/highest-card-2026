@@ -49,20 +49,23 @@
     }
   },
   "PlayerPage": {
-    "WaitingRoom": {
+    "waitingRoom": {
       "players": "Players",
       "waitingForGame": "Waiting for the host to start the game…"
     },
-    "GameRoom": {
+    "gameRoom": {
+      "waitingForNextRound": "You'll play starting next round",
+      "opponents": "Opponents"
+    },
+    "currentPlayer": {
+      "yourHand": "Your hand",
       "points": "pts",
       "in": "In",
       "pass": "Pass",
       "waitingForNextRound": "You'll play starting next round",
       "dealer": "Dealer",
-      "winner": "Winner",
-      "opponents": "Opponents",
-      "yourHand": "Your hand",
-      "yourTurn": "Your turn"
+      "yourTurn": "Your turn",
+      "winner": "Winner"
     }
   },
   "InvitePlayers": {
