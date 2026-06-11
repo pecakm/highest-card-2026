@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { Color } from '@/ui';
+import { Card } from '@/components';
 
 export const Hero = styled.header`
   display: flex;
@@ -36,19 +37,21 @@ export const CardFan = styled.div`
   gap: 0;
   margin-block: 0.75rem 0.25rem;
   padding-block: 0.5rem;
+`;
 
-  & > *:nth-child(1) {
+export const StyledCard = styled(Card)`
+  &:nth-of-type(1) {
     transform: rotate(-12deg) translateY(0.25rem);
     z-index: 1;
   }
 
-  & > *:nth-child(2) {
+  &:nth-of-type(2) {
     transform: translateY(-0.35rem);
     z-index: 2;
     margin-inline: -0.75rem;
   }
 
-  & > *:nth-child(3) {
+  &:nth-of-type(3) {
     transform: rotate(12deg) translateY(0.25rem);
     z-index: 1;
   }
