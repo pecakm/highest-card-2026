@@ -11,5 +11,4 @@ export * from './roundChoice.type';
 export * from './roomStateMessage.type';
 export * from './roundPhase.type';
 export * from './serverMessage.type';
-export * from './statusVariant.type';
 export * from './suit.type';

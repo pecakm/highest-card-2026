@@ -1,6 +1,6 @@
 import { useTranslations } from 'next-intl';
 
-import { heroCards } from './hero.constants';
+import { HeroCards } from './hero.constants';
 import { Container, Tagline, CardFan, StyledCard } from './hero.styled';
 
 export default function Hero() {
@@ -10,7 +10,7 @@ export default function Hero() {
     <Container>
       <Tagline>{t('tagline')}</Tagline>
       <CardFan aria-hidden>
-        {heroCards.map((card) => (
+        {HeroCards.map((card) => (
           <StyledCard key={`${card.rank}${card.suit}`} card={card} size="md" />
         ))}
       </CardFan>

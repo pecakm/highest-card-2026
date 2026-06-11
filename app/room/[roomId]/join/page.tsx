@@ -6,7 +6,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Input, Button } from '@/components';
-import { getPlayerNameSessionKey } from '@/constants';
+import { getPlayerNameSessionKey } from '@/utils';
 import { PageContainer } from '@/ui';
 import { joinSchema, JoinFormValues } from '@/validations';
 

@@ -4,8 +4,9 @@ import { useTranslations } from 'next-intl';
 import { QRCodeCanvas } from 'qrcode.react';
 
 import { SectionLabel } from '@/ui';
+import { Button } from '@/components';
 
-import Button from '../button/button';
+import { InvitePlayersProps } from './invitePlayers.types';
 import {
   InviteSection,
   JoinPanel,
@@ -14,10 +15,6 @@ import {
   JoinUrlLabel,
   JoinUrlLink,
 } from './invitePlayers.styled';
-
-type InvitePlayersProps = {
-  joinUrl: string;
-};
 
 export default function InvitePlayers({ joinUrl }: InvitePlayersProps) {
   const t = useTranslations('InvitePlayers');

@@ -1,28 +1,7 @@
-import styled, { css } from 'styled-components';
-
-import { StatusVariant } from '@/types';
+import styled from 'styled-components';
 
 import { Color } from './color.enum';
 import { tableSurface } from './tableSurface.styled';
-import { StatusBannerProps } from './roomLayout.types';
-
-const statusStyles: Record<StatusVariant, ReturnType<typeof css>> = {
-  info: css`
-    background: ${Color.InfoBg};
-    border-color: ${Color.InfoBorder};
-    color: ${Color.Info};
-  `,
-  success: css`
-    background: ${Color.SuccessBg};
-    border-color: ${Color.SuccessBorder};
-    color: ${Color.Success};
-  `,
-  waiting: css`
-    background: ${Color.WaitingBg};
-    border-color: ${Color.WaitingBorder};
-    color: ${Color.Waiting};
-  `,
-};
 
 export const PageContainer = styled.div`
   display: flex;
@@ -41,16 +20,16 @@ export const RoomContainer = styled.div`
   width: 100%;
 `;
 
-export const StatusBanner = styled.div<StatusBannerProps>`
+export const StatusBanner = styled.div`
   padding: 0.75rem 1rem;
   border-radius: 0.75rem;
-  border: 1px solid transparent;
+  border: 1px solid ${Color.WaitingBorder};
   text-align: center;
   font-size: 0.9375rem;
   font-weight: 500;
   line-height: 1.4;
-
-  ${({ $variant }) => statusStyles[$variant]}
+  background: ${Color.WaitingBg};
+  color: ${Color.Waiting};
 `;
 
 export const Table = styled.div`

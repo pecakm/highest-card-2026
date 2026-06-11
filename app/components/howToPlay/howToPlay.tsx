@@ -2,7 +2,7 @@ import { useTranslations } from 'next-intl';
 
 import { SectionLabel } from '@/ui';
 
-import { stepKeys } from './howToPlay.constants';
+import { StepKeys } from './howToPlay.constants';
 import {
   Container,
   StepList,
@@ -21,7 +21,7 @@ export default function HowToPlay() {
     <Container>
       <SectionLabel>{t('howToPlay')}</SectionLabel>
       <StepList>
-        {stepKeys.map((key, index) => (
+        {StepKeys.map((key, index) => (
           <StepItem key={key}>
             <StepNumber>{index + 1}</StepNumber>
             <StepContent>

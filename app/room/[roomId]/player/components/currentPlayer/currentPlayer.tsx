@@ -1,5 +1,3 @@
-'use client';
-
 import { useTranslations } from 'next-intl';
 
 import { Badge, SectionLabel, Score, BadgeRow } from '@/ui';

@@ -3,7 +3,7 @@
 import { useCallback, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 
-import { getPlayerNameSessionKey } from '@/constants';
+import { getPlayerNameSessionKey } from '@/utils';
 import { useRoomSocket } from '@/hooks';
 import { PageContainer } from '@/ui';
 import { RoundChoice } from '@/types';

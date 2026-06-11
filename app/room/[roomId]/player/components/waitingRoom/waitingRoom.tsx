@@ -17,7 +17,7 @@ export default function WaitingRoom({ players }: WaitingRoomProps) {
 
   return (
     <RoomContainer>
-      <StatusBanner $variant="waiting">{t('waitingForGame')}</StatusBanner>
+      <StatusBanner>{t('waitingForGame')}</StatusBanner>
       <Table>
         <SectionLabel>
           {t('players')} ({players.length})

@@ -1,4 +1,4 @@
-import type { BadgeVariant, Player, RoundPhase } from '@/types';
+import type { Player, RoundPhase } from '@/types';
 
 export interface PlayerSeatListProps {
   title: string;
@@ -6,8 +6,4 @@ export interface PlayerSeatListProps {
   roundPhase: RoundPhase;
   choosingPlayerId?: string;
   dealerPlayerId?: string;
-}
-
-export interface BadgeProps {
-  $variant: BadgeVariant;
 }

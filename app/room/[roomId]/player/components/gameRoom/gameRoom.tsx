@@ -4,7 +4,7 @@ import { getRoundWinners } from '@/utils';
 import { PlayerSeatList } from '@/components';
 import { RoomContainer, StatusBanner, Table } from '@/ui';
 
-import CurrentPlayer from '../currentPlayer/currentPlayer';
+import { CurrentPlayer } from '..';
 
 import { GameRoomProps } from './gameRoom.types';
 import { getDisplayPlayers } from './gameRoom.utils';
@@ -32,7 +32,7 @@ export default function GameRoom({
   return (
     <RoomContainer>
       {roundPhase === 'choosing' && !canChooseThisRound && (
-        <StatusBanner $variant="waiting">{t('waitingForNextRound')}</StatusBanner>
+        <StatusBanner>{t('waitingForNextRound')}</StatusBanner>
       )}
       <Table>
         {displayPlayers.length > 0 && (
