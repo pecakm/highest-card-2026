@@ -1,7 +1,8 @@
 import { useTranslations } from 'next-intl';
 
 import { NavbarProps } from './navbar.types';
-import { Container, Inner, Title } from './navbar.styled';
+import { heroCards } from './navbar.constants';
+import { Container, Inner, Title, CardFan, StyledCard } from './navbar.styled';
 
 export default function Navbar({ className }: NavbarProps) {
   const t = useTranslations('Navbar');
@@ -9,7 +10,17 @@ export default function Navbar({ className }: NavbarProps) {
   return (
     <Container className={className}>
       <Inner>
-        <Title>{t('title')}</Title>
+        <CardFan aria-hidden>
+          {heroCards.map((card) => (
+            <StyledCard key={`${card.rank}${card.suit}`} card={card} size="sm" />
+          ))}
+        </CardFan>
+        <Title href="/">{t('title')}</Title>
+        <CardFan aria-hidden>
+          {heroCards.map((card) => (
+            <StyledCard key={`${card.rank}${card.suit}`} card={card} size="sm" />
+          ))}
+        </CardFan>
       </Inner>
     </Container>
   );
