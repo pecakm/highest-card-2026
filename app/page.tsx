@@ -1,15 +1,63 @@
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
+
+import { Card } from '@/components';
+import { PageContainer, Table, SectionLabel } from '@/ui';
 
 import { CreateRoom } from './components';
-import { Container, Title } from './page.styled';
+import { heroCards, stepKeys } from './page.constants';
+import {
+  Hero,
+  Title,
+  Tagline,
+  CardFan,
+  HowToPlaySection,
+  StepList,
+  StepItem,
+  StepNumber,
+  StepContent,
+  StepTitle,
+  StepDescription,
+  ScoringNote,
+  CtaDescription,
+  CtaActions,
+} from './page.styled';
 
-export default function HomePage() {
-  const t = useTranslations('HomePage');
+export default async function HomePage() {
+  const t = await getTranslations('HomePage');
 
   return (
-    <Container>
-      <Title>{t('title')}</Title>
-      <CreateRoom />
-    </Container>
+    <PageContainer>
+      <Hero>
+        <Title>{t('title')}</Title>
+        <Tagline>{t('tagline')}</Tagline>
+        <CardFan aria-hidden>
+          {heroCards.map((card) => (
+            <Card key={`${card.rank}${card.suit}`} card={card} size="md" />
+          ))}
+        </CardFan>
+      </Hero>
+      <Table>
+        <SectionLabel>{t('getStarted')}</SectionLabel>
+        <CtaDescription>{t('getStartedDescription')}</CtaDescription>
+        <CtaActions>
+          <CreateRoom />
+        </CtaActions>
+        <HowToPlaySection>
+          <SectionLabel>{t('howToPlay')}</SectionLabel>
+          <StepList>
+            {stepKeys.map((key, index) => (
+              <StepItem key={key}>
+                <StepNumber>{index + 1}</StepNumber>
+                <StepContent>
+                  <StepTitle>{t(`steps.${key}.title`)}</StepTitle>
+                  <StepDescription>{t(`steps.${key}.description`)}</StepDescription>
+                </StepContent>
+              </StepItem>
+            ))}
+          </StepList>
+          <ScoringNote>{t('scoring')}</ScoringNote>
+        </HowToPlaySection>
+      </Table>
+    </PageContainer>
   );
 }
