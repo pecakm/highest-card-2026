@@ -3,24 +3,20 @@
 import { useTranslations } from 'next-intl';
 
 import { getRoundWinners } from '@/utils';
-import { Button, Card } from '@/components';
+import { Button, Card, PlayerSeatList } from '@/components';
 import {
   RoomContainer,
   StatusBanner,
   Table,
   SectionLabel,
-  PlayersGrid,
-  SeatName,
-  PlayerSeat,
+  Score,
+  BadgeRow,
+  Badge,
 } from '@/ui';
 
 import { GameRoomProps } from './gameRoom.types';
 import { getDisplayPlayers } from './gameRoom.utils';
 import {
-  PlayerCardSlot,
-  Score,
-  BadgeRow,
-  Badge,
   PlayerSection,
   YourCard,
   PlayerInfo,
@@ -60,47 +56,14 @@ export default function GameRoom({
 
       <Table>
         {displayPlayers.length > 0 && (
-          <>
-            <SectionLabel>{t('opponents')}</SectionLabel>
-            <PlayersGrid>
-              {displayPlayers.map((player) => {
-                const isChoosing = roundPhase === 'choosing' && choosingPlayer?.id === player.id;
-                const isWinner = winners.some((winner) => winner.id === player.id);
-
-                return (
-                  <PlayerSeat
-                    key={player.id}
-                    $isChoosing={isChoosing}
-                    $isWinner={isWinner}
-                  >
-                    <PlayerCardSlot>
-                      <Card
-                        card={player.card}
-                        faceDown={roundPhase === 'choosing' && !player.card}
-                        size="sm"
-                      />
-                    </PlayerCardSlot>
-                    <SeatName>{player.name}</SeatName>
-                    <Score>
-                      {player.score} {t('points')}
-                    </Score>
-                    <BadgeRow>
-                      {player.id === dealerPlayer?.id && (
-                        <Badge $variant="dealer">{t('dealer')}</Badge>
-                      )}
-                      {isChoosing && <Badge $variant="turn">{t('choosing')}</Badge>}
-                      {roundPhase === 'choosing' && player.choice && (
-                        <Badge $variant="choice">{t(player.choice)}</Badge>
-                      )}
-                      {isWinner && <Badge $variant="winner">{t('winner')}</Badge>}
-                    </BadgeRow>
-                  </PlayerSeat>
-                );
-              })}
-            </PlayersGrid>
-          </>
+          <PlayerSeatList
+            title={t('opponents')}
+            players={displayPlayers}
+            roundPhase={roundPhase}
+            choosingPlayerId={choosingPlayer?.id}
+            dealerPlayerId={dealerPlayer?.id}
+          />
         )}
-
         {!!currentPlayer && (
           <PlayerSection>
             <SectionLabel>{t('yourHand')}</SectionLabel>

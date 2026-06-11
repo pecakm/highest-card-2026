@@ -1,28 +1,7 @@
 import styled, { css } from 'styled-components';
 
-import { Color } from '@/ui';
-
-import { BadgeProps } from './page.types';
-
-export const PlayerCardSlot = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-export const Score = styled.span`
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: rgba(254, 254, 254, 0.65);
-  font-variant-numeric: tabular-nums;
-`;
-
-export const BadgeRow = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.35rem;
-`;
+import { Color } from './color.enum';
+import { BadgeProps } from './badge.types';
 
 export const Badge = styled.span<BadgeProps>`
   display: inline-flex;

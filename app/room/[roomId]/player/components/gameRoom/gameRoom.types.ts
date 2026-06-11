@@ -1,4 +1,4 @@
-import { Player, RoundChoice, RoundPhase, BadgeVariant } from '@/types';
+import { Player, RoundChoice, RoundPhase } from '@/types';
 
 export interface GameRoomProps {
   playerId: string;
@@ -7,8 +7,4 @@ export interface GameRoomProps {
   dealerPlayerIndex: number;
   players: Player[];
   onRoundChoice: (choice: RoundChoice) => void;
-}
-
-export interface BadgeProps {
-  $variant: BadgeVariant;
 }

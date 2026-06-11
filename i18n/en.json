@@ -36,13 +36,7 @@
     "startGame": "Start Game"
   },
   "HostPage": {
-    "players": "Players",
-    "points": "pts",
-    "winner": "Winner",
-    "dealer": "Dealer",
-    "choosing": "Choosing",
-    "in": "In",
-    "pass": "Pass"
+    "players": "Players"
   },
   "JoinPage": {
     "yourName": "Your name",
@@ -68,7 +62,6 @@
       "winner": "Winner",
       "opponents": "Opponents",
       "yourHand": "Your hand",
-      "choosing": "Choosing",
       "yourTurn": "Your turn"
     }
   },
@@ -79,5 +72,13 @@
   },
   "Navbar": {
     "title": "Highest Card"
+  },
+  "PlayerSeatList": {
+    "points": "pts",
+    "winner": "Winner",
+    "dealer": "Dealer",
+    "choosing": "Choosing",
+    "in": "In",
+    "pass": "Pass"
   }
 }
