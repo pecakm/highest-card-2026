@@ -1,6 +1,8 @@
 {
   "HomePage": {
-    "tagline": "A quick bluff-and-guess card game you can play with friends in the same room or online.",
+    "Hero": {
+      "tagline": "A quick bluff-and-guess card game you can play with friends in the same room or online."
+    },
     "howToPlay": "How to play",
     "steps": {
       "create": {

@@ -2,13 +2,9 @@ import { getTranslations } from 'next-intl/server';
 
 import { PageContainer, Table, SectionLabel } from '@/ui';
 
-import { CreateRoom } from './components';
-import { heroCards, stepKeys } from './page.constants';
+import { CreateRoom, Hero } from './components';
+import { stepKeys } from './page.constants';
 import {
-  Hero,
-  Tagline,
-  CardFan,
-  StyledCard,
   HowToPlaySection,
   StepList,
   StepItem,
@@ -26,14 +22,7 @@ export default async function HomePage() {
 
   return (
     <PageContainer>
-      <Hero>
-        <Tagline>{t('tagline')}</Tagline>
-        <CardFan aria-hidden>
-          {heroCards.map((card) => (
-            <StyledCard key={`${card.rank}${card.suit}`} card={card} size="md" />
-          ))}
-        </CardFan>
-      </Hero>
+      <Hero />
       <Table>
         <SectionLabel>{t('getStarted')}</SectionLabel>
         <CtaDescription>{t('getStartedDescription')}</CtaDescription>
