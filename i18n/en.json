@@ -1,6 +1,6 @@
 {
   "HomePage": {
-    "Hero": {
+    "hero": {
       "tagline": "A quick bluff-and-guess card game you can play with friends in the same room or online."
     },
     "getStarted": {
@@ -8,26 +8,28 @@
       "getStartedDescription": "No account or download needed — create a room and start playing in seconds.",
       "createRoom": "Create room"
     },
-    "howToPlay": "How to play",
-    "steps": {
-      "create": {
-        "title": "Create a room",
-        "description": "Start a new game from this page. You'll land in the lobby as the host."
+    "howToPlay": {
+      "howToPlay": "How to play",
+      "steps": {
+        "create": {
+          "title": "Create a room",
+          "description": "Start a new game from this page. You'll land in the lobby as the host."
+        },
+        "invite": {
+          "title": "Invite players",
+          "description": "Share the join link or QR code from the lobby. Each player picks a name and joins on their phone or laptop."
+        },
+        "choose": {
+          "title": "Choose in or pass",
+          "description": "Every round, each player gets a card. In turn, decide whether to stay in the round or pass and sit it out."
+        },
+        "win": {
+          "title": "Highest card wins",
+          "description": "Among players who chose in, the highest card wins the round. Ties share the win."
+        }
       },
-      "invite": {
-        "title": "Invite players",
-        "description": "Share the join link or QR code from the lobby. Each player picks a name and joins on their phone or laptop."
-      },
-      "choose": {
-        "title": "Choose in or pass",
-        "description": "Every round, each player gets a card. In turn, decide whether to stay in the round or pass and sit it out."
-      },
-      "win": {
-        "title": "Highest card wins",
-        "description": "Among players who chose in, the highest card wins the round. Ties share the win."
-      }
-    },
-    "scoring": "Winners earn +1 point. Everyone else who stayed in loses −1 point. Passing keeps your score unchanged."
+      "scoring": "Winners earn +1 point. Everyone else who stayed in loses −1 point. Passing keeps your score unchanged."
+    }
   },
   "LobbyPage": {
     "players": "Players",

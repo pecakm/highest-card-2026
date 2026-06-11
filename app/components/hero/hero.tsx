@@ -4,7 +4,7 @@ import { heroCards } from './hero.constants';
 import { Container, Tagline, CardFan, StyledCard } from './hero.styled';
 
 export default function Hero() {
-  const t = useTranslations('HomePage.Hero');
+  const t = useTranslations('HomePage.hero');
 
   return (
     <Container>
