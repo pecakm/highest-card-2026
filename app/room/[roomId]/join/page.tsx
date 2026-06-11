@@ -1,0 +1,71 @@
+'use client';
+
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import { Controller, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+import { Input, Button } from '@/components';
+import { getPlayerNameSessionKey } from '@/utils';
+import { PageContainer } from '@/ui';
+import { joinSchema, JoinFormValues } from '@/validations';
+
+import { Form, ErrorMessage } from './page.styled';
+
+export default function JoinPage() {
+  const { roomId } = useParams<{ roomId: string }>();
+  const t = useTranslations('JoinPage');
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const joinError = searchParams.get('error');
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<JoinFormValues>({
+    resolver: zodResolver(joinSchema),
+    defaultValues: {
+      username: '',
+    },
+  });
+
+  const onSubmit = (data: JoinFormValues) => {
+    const username = data.username.trim();
+
+    if (!username) return;
+
+    sessionStorage.setItem(getPlayerNameSessionKey(roomId), username);
+    router.push(`/room/${roomId}/player`);
+  };
+
+  return (
+    <PageContainer>
+      {joinError === 'duplicateName' && (
+        <ErrorMessage>{t('validation.duplicateName')}</ErrorMessage>
+      )}
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Controller
+          name="username"
+          control={control}
+          render={({ field }) => (
+            <Input
+              id="username"
+              placeholder={t('yourName')}
+              error={!!errors.username}
+              helperText={
+                errors.username?.message
+                  ? t(errors.username.message)
+                  : undefined
+              }
+              {...field}
+            />
+          )}
+        />
+        <Button type="submit" disabled={isSubmitting}>
+          {t('joinRoom')}
+        </Button>
+      </Form>
+    </PageContainer>
+  );
+}

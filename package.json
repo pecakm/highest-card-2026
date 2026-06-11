@@ -6,12 +6,27 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "partykit:dev": "npx partykit dev",
+    "partykit:deploy": "npx partykit deploy"
   },
   "dependencies": {
+    "@emotion/cache": "^11.14.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@hookform/resolvers": "^5.4.0",
+    "@mui/material": "^9.0.1",
+    "@mui/material-nextjs": "^9.0.1",
     "next": "16.2.6",
+    "next-intl": "^4.13.0",
+    "partykit": "^0.0.115",
+    "partysocket": "^1.1.19",
+    "qrcode.react": "^4.2.0",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "react-hook-form": "^7.77.0",
+    "styled-components": "^6.4.2",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/node": "^20",
