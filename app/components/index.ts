@@ -1,2 +1,2 @@
-export { default as CreateRoom } from './createRoom/createRoom';
+export { default as GetStarted } from './getStarted/getStarted';
 export { default as Hero } from './hero/hero';

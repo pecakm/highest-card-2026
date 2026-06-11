@@ -3,6 +3,11 @@
     "Hero": {
       "tagline": "A quick bluff-and-guess card game you can play with friends in the same room or online."
     },
+    "getStarted": {
+      "getStarted": "Get started",
+      "getStartedDescription": "No account or download needed — create a room and start playing in seconds.",
+      "createRoom": "Create room"
+    },
     "howToPlay": "How to play",
     "steps": {
       "create": {
@@ -22,12 +27,7 @@
         "description": "Among players who chose in, the highest card wins the round. Ties share the win."
       }
     },
-    "scoring": "Winners earn +1 point. Everyone else who stayed in loses −1 point. Passing keeps your score unchanged.",
-    "getStarted": "Get started",
-    "getStartedDescription": "No account or download needed — create a room and start playing in seconds.",
-    "createRoom": {
-      "createRoom": "Create room"
-    }
+    "scoring": "Winners earn +1 point. Everyone else who stayed in loses −1 point. Passing keeps your score unchanged."
   },
   "LobbyPage": {
     "players": "Players",

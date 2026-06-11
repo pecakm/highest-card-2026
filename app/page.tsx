@@ -2,7 +2,7 @@ import { getTranslations } from 'next-intl/server';
 
 import { PageContainer, Table, SectionLabel } from '@/ui';
 
-import { CreateRoom, Hero } from './components';
+import { Hero, GetStarted } from './components';
 import { stepKeys } from './page.constants';
 import {
   HowToPlaySection,
@@ -13,8 +13,6 @@ import {
   StepTitle,
   StepDescription,
   ScoringNote,
-  CtaDescription,
-  CtaActions,
 } from './page.styled';
 
 export default async function HomePage() {
@@ -24,11 +22,7 @@ export default async function HomePage() {
     <PageContainer>
       <Hero />
       <Table>
-        <SectionLabel>{t('getStarted')}</SectionLabel>
-        <CtaDescription>{t('getStartedDescription')}</CtaDescription>
-        <CtaActions>
-          <CreateRoom />
-        </CtaActions>
+        <GetStarted />
         <HowToPlaySection>
           <SectionLabel>{t('howToPlay')}</SectionLabel>
           <StepList>

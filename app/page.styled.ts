@@ -69,16 +69,3 @@ export const ScoringNote = styled.p`
   font-size: 0.875rem;
   line-height: 1.5;
 `;
-
-export const CtaDescription = styled.p`
-  font-size: 0.9375rem;
-  line-height: 1.5;
-  color: rgba(254, 254, 254, 0.7);
-  text-align: center;
-`;
-
-export const CtaActions = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-block-start: 0.25rem;
-`;
