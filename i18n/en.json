@@ -1,6 +1,5 @@
 {
   "HomePage": {
-    "title": "Highest Card",
     "tagline": "A quick bluff-and-guess card game you can play with friends in the same room or online.",
     "howToPlay": "How to play",
     "steps": {
@@ -73,5 +72,8 @@
     "copyLink": "Copy link",
     "joinUrl": "Join URL",
     "invitePlayers": "Invite players"
+  },
+  "Navbar": {
+    "title": "Highest Card"
   }
 }

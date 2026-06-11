@@ -12,17 +12,6 @@ export const Hero = styled.header`
   padding-block: 0.5rem 0.25rem;
 `;
 
-export const Title = styled.h1`
-  font-size: clamp(2rem, 8vw, 2.75rem);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-  background: linear-gradient(180deg, #fff 0%, rgba(254, 254, 254, 0.75) 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-`;
-
 export const Tagline = styled.p`
   max-width: 28rem;
   font-size: 1.0625rem;

@@ -6,7 +6,6 @@ import { CreateRoom } from './components';
 import { heroCards, stepKeys } from './page.constants';
 import {
   Hero,
-  Title,
   Tagline,
   CardFan,
   StyledCard,
@@ -28,7 +27,6 @@ export default async function HomePage() {
   return (
     <PageContainer>
       <Hero>
-        <Title>{t('title')}</Title>
         <Tagline>{t('tagline')}</Tagline>
         <CardFan aria-hidden>
           {heroCards.map((card) => (
