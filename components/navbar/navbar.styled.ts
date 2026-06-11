@@ -9,12 +9,12 @@ export const Container = styled.nav`
   z-index: 100;
   width: 100%;
   background:
-    radial-gradient(ellipse 60% 100% at 50% 0%, rgba(76, 175, 80, 0.08) 0%, transparent 70%),
-    rgba(51, 51, 51, 0.88);
+    radial-gradient(ellipse 60% 100% at 50% 0%, rgba(102, 187, 106, 0.12) 0%, transparent 70%),
+    rgba(31, 48, 42, 0.82);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-block-end: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+  border-block-end: 1px solid rgba(102, 187, 106, 0.2);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
 `;
 
 export const Inner = styled.div`

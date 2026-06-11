@@ -45,8 +45,34 @@ h1, h2, h3, h4, h5, h6 {
 /* RESET CSS END */
 
 body {
-  background-color: #333;
+  position: relative;
+  min-height: 100dvh;
   color: #fefefe;
+  background-color: #1f302a;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 105% 60% at 50% -10%, rgba(102, 187, 106, 0.3) 0%, transparent 60%),
+    radial-gradient(ellipse 48% 35% at 96% 92%, rgba(66, 165, 245, 0.17) 0%, transparent 54%),
+    radial-gradient(ellipse 48% 35% at 4% 92%, rgba(66, 165, 245, 0.17) 0%, transparent 54%),
+    linear-gradient(175deg, #324840 0%, #2a3f38 42%, #1f302a 100%);
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.44;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.065) 0.5px, transparent 0.5px);
+  background-size: 22px 22px;
 }
 
 button {
