@@ -42,6 +42,7 @@ export default function GameRoom({
             roundPhase={roundPhase}
             choosingPlayerId={choosingPlayer?.id}
             dealerPlayerId={dealerPlayer?.id}
+            winnerPlayerIds={winners.map((winner) => winner.id)}
           />
         )}
         {!!currentPlayer && (
