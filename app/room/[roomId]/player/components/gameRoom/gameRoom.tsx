@@ -22,7 +22,12 @@ export default function GameRoom({
   const dealerPlayer = players[dealerPlayerIndex];
   const displayPlayers = getDisplayPlayers(players, playerId);
   const choosingPlayer = players[choosingPlayerIndex];
-  const canChooseThisRound = Boolean(currentPlayer?.card);
+  const canChooseThisRound = Boolean(
+    currentPlayer?.hasCardThisRound && currentPlayer.choice === null,
+  );
+  const isWaitingForNextRound = roundPhase === 'choosing'
+    && currentPlayer !== undefined
+    && !currentPlayer.hasCardThisRound;
   const winners = getRoundWinners(players, roundPhase);
   const isMyTurn = roundPhase === 'choosing'
     && canChooseThisRound
@@ -31,7 +36,7 @@ export default function GameRoom({
 
   return (
     <RoomContainer>
-      {roundPhase === 'choosing' && !canChooseThisRound && (
+      {isWaitingForNextRound && (
         <StatusBanner>{t('waitingForNextRound')}</StatusBanner>
       )}
       <Table>

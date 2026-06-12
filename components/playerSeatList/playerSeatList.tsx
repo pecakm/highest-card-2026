@@ -39,7 +39,7 @@ export default function PlayerSeatList({
               <PlayerCardSlot>
                 <Card
                   card={player.card}
-                  faceDown={roundPhase === 'choosing' && !player.card}
+                  faceDown={player.cardFaceDown}
                   size="sm"
                 />
               </PlayerCardSlot>

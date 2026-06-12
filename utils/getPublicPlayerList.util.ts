@@ -7,8 +7,14 @@ export function getPublicPlayerList(
   viewerPlayerId: string | undefined,
   roundPhase: RoundPhase,
 ): Player[] {
-  return players.map((player) => ({
-    ...player,
-    card: isPlayerCardVisible(player, viewerPlayerId, roundPhase) ? player.card : null,
-  }));
+  return players.map((player) => {
+    const cardVisible = isPlayerCardVisible(player, viewerPlayerId, roundPhase);
+
+    return {
+      ...player,
+      card: cardVisible ? player.card : null,
+      cardFaceDown: Boolean(player.card) && player.choice !== 'pass' && !cardVisible,
+      hasCardThisRound: Boolean(player.card),
+    };
+  });
 }

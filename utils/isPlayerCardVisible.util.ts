@@ -5,7 +5,7 @@ export function isPlayerCardVisible(
   viewerPlayerId: string | undefined,
   roundPhase: RoundPhase,
 ): boolean {
-  if (!player.card) {
+  if (!player.card || player.choice === 'pass') {
     return false;
   }
 
