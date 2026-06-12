@@ -8,3 +8,7 @@ export interface CurrentPlayerProps {
   roundPhase: RoundPhase;
   onRoundChoice: (choice: RoundChoice) => void;
 }
+
+export interface YourCardProps {
+  $isChoosing?: boolean;
+}

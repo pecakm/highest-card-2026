@@ -6,4 +6,5 @@ export interface PlayerSeatListProps {
   roundPhase: RoundPhase;
   choosingPlayerId?: string;
   dealerPlayerId?: string;
+  winnerPlayerIds?: string[];
 }

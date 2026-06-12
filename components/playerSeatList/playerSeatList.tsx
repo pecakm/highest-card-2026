@@ -3,7 +3,6 @@
 import { useTranslations } from 'next-intl';
 
 import { Card } from '@/components';
-import { getRoundWinners } from '@/utils';
 import {
   PlayersGrid,
   PlayerSeat,
@@ -23,9 +22,9 @@ export default function PlayerSeatList({
   roundPhase,
   choosingPlayerId,
   dealerPlayerId,
+  winnerPlayerIds = [],
 }: PlayerSeatListProps) {
   const t = useTranslations('PlayerSeatList');
-  const winners = getRoundWinners(players, roundPhase);
 
   return (
     <Container>
@@ -33,14 +32,14 @@ export default function PlayerSeatList({
       <PlayersGrid>
         {players.map((player) => {
           const isChoosing = roundPhase === 'choosing' && choosingPlayerId === player.id;
-          const isWinner = winners.some((winner) => winner.id === player.id);
+          const isWinner = winnerPlayerIds.includes(player.id);
 
           return (
             <PlayerSeat key={player.id} $isChoosing={isChoosing} $isWinner={isWinner}>
               <PlayerCardSlot>
                 <Card
                   card={player.card}
-                  faceDown={roundPhase === 'choosing' && !player.card}
+                  faceDown={player.cardFaceDown}
                   size="sm"
                 />
               </PlayerCardSlot>

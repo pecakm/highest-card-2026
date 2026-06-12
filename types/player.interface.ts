@@ -7,4 +7,6 @@ export interface Player {
   score: number;
   card: CardData | null;
   choice: RoundChoice | null;
+  cardFaceDown?: boolean;
+  hasCardThisRound?: boolean;
 }
