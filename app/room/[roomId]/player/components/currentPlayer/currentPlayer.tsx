@@ -27,7 +27,7 @@ export default function CurrentPlayer({
   return (
     <Container>
       <SectionLabel>{t('yourHand')}</SectionLabel>
-      <YourCard>
+      <YourCard $isChoosing={isMyTurn}>
         <Card card={player.card} size="lg" />
       </YourCard>
       <PlayerInfo>

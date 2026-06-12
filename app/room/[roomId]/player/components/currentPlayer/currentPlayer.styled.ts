@@ -1,4 +1,8 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+import { choicePulse } from '@/ui/choicePulse.styled';
+
+import { YourCardProps } from './currentPlayer.types';
 
 export const Container = styled.div`
   display: flex;
@@ -10,10 +14,21 @@ export const Container = styled.div`
   border-block-start: 1px solid rgba(255, 255, 255, 0.08);
 `;
 
-export const YourCard = styled.div`
+export const YourCard = styled.div<YourCardProps>`
   display: flex;
   justify-content: center;
   filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.45));
+  border-radius: 1rem;
+  border: 2px solid transparent;
+  padding: 0.5rem;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+
+  ${({ $isChoosing }) => $isChoosing && css`
+    border-color: rgba(255, 213, 79, 0.65);
+    animation: ${choicePulse} 2s ease-in-out infinite;
+  `}
 `;
 
 export const PlayerInfo = styled.div`
